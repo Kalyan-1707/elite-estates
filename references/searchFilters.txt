@@ -1,0 +1,89 @@
+A short list of relevant filters 
+for the full list: https://rapidapi.com/oneapiproject/api/zillow-working-api/playground/apiendpoint_68fbab94-16cf-4b5a-a643-a6f8fcee068d
+REQUIRED:
+1. Location
+Enter an address, neighborhood, city, or ZIP code. 
+For Multi-inputs upto 5 (separate with a semicolon): New York, NY; Seattle, WA; 78006
+
+OPTIONAL
+1. page **(&page=2)
+Zillow provides 1000 results on each search. This endpoint returns 200 results per call. 
+So the maximum page number could be 5. 
+To collect all the data: Narrow down your search into smaller areas.
+(Search by zip code, Set different listPriceRange, try different homeTypes)
+
+2. sortOrder **(&sortOrder=Rental_Priority_Score)**
+Select how you want to sort your search results.
+Defaults:
+For Sale : Homes_for_you
+For Rent : Rental_Priority_Score
+Sold : Newest
+VALUES:  Homes_for_you,Rental_Priority_Score,Newest,Price_High_to_Low, Price_Low_to_High,
+Bedrooms, Bathrooms, Square_Feet, Lot_Size, Year_Built
+
+3. listPriceRange **(listPriceRange=min%3A5000%2C+max%3A500000)
+Possible Inputs (VALUES):
+For Minimum Price: min:5000
+For Maximum Price: max:500000
+For a Price Range: min:5000, max:500000
+
+4.listingStatus **(listingStatus=Sold)
+Select which type of property data you want to find.
+VALUES: Sold, For_Sale, For_Rent
+
+5.monthlyPayment **(monthlyPayment=5000) or (monthlyPayment=min%3A5000%2C+max%3A50000) **
+Only used for listingStatus: For_Sale. Possible Inputs:
+For Minimum Payment: min:5000
+For Maximum Payment: max:50000
+For a Payment Range: min:5000, max:50000
+
+6. downPayment **(downPayment=50000**
+Only used for listingStatus: For_Sale. Input a down payment (dollars). 
+Example: 15000. For No Down Payment, do not input anything.
+
+7.bed_min **(bed_min=No_Min , bed_min=3)**
+Input the minimum number of bedrooms that should be present on the listings.
+For an exact match, use bed_min and bed_max equal. For example, to see properties with 3 bedrooms: bed_min=3, bed_max=3
+8. bed_max **(bed_max=No_Max , bed_max=3)**
+see above. 
+
+9. bathrooms **(bathrooms=Any, bathrooms=OnePlus)
+Input Mapping Explanation:
+Any → Any OnePlus → 1+ OneHalfPlus → 1.5+ TwoPlus → 2+ ThreePlus → 3+ FourPlus → 4+
+VALUES:OnePlus, OneHalfPlus, TwoPlus, TheePlus, Fourplus
+
+10. listingType
+Only used for listingStatus: For_Sale. Default: By_Agent
+VALUES: By_Agent, By_Owner_and-other
+
+11. listingTypeOptions **(listingTypeOptions=Agent+listed%2CNew+Construction%2CFore-closures%2CAuctions)
+example: Agent listed,New Construction,Fore-closures,Auctions
+Only used for listingStatus: For_Sale. For multiple inputs, separate them with a comma or keep it empty for all types selected.
+
+Possible values when listingType = By_Agent:
+Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures
+
+12. propertyStatus
+Only used for listingStatus = For_Sale
+Possible values: Coming soon, Accepting backup offers, Pending & under contract
+
+13. YearBuiltRange **(yearBuiltRange=2011)
+Possible Inputs:
+
+For Minimum Year Built: min:2011
+For Maximum Year Built: max:2024
+For a Year Built Range: min:2011, max:2024
+
+14. otherAmenities
+For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types.
+
+Possible values when listingStatus = For_Sale or Sold:
+Must have A/C, Must have pool, Waterfront
+Possible values when listingStatus = For_Rent:
+Must have A/C, Must have pool, Waterfront, On-site Parking, 
+In-unit Laundry, Accepts Zillow Applications, Income Restricted, Apartment Community
+
+15. keywords **(keywords=two+story)
+MLS #, yard, fireplace, horses, etc
+
+
