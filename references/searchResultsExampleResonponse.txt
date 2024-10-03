@@ -1,3 +1,5 @@
+JSON RESPONSE after calling the search url 
+example url: https://zillow-working-api.p.rapidapi.com/search/byaddress?location=New%20York%2C%20NY&page=1&sortOrder=Homes_for_you&listingStatus=For_Sale&bed_min=No_Min&bed_max=No_Max&bathrooms=Any&homeType=Houses%2C%20Townhomes%2C%20Multi-family%2C%20Condos%2FCo-ops%2C%20Lots-Land%2C%20Apartments%2C%20Manufactured&maxHOA=Any&listingType=By_Agent&listingTypeOptions=Agent%20listed%2CNew%20Construction%2CFore-closures%2CAuctions&parkingSpots=Any&mustHaveBasement=No&daysOnZillow=Any&soldInLas
 {
   "message": "200",
   "source": "3or_ws",

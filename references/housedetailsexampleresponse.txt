@@ -1,3 +1,6 @@
+JSON RESPONSE after calling the property info
+example url: https://zillow-working-api.p.rapidapi.com/pro/byaddress?propertyaddress=2762%20DOWNING%20Street%2C%20Jacksonville%2C%20FL%2032205'
+
 {
   "message": "200: Success",
   "source": "5or_ws_gh1",
