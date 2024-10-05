@@ -13,35 +13,33 @@ export default function NavBar() {
   ];
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} position="static">
+    <Navbar onMenuOpenChange={setIsMenuOpen} position="static" className="justify-between" maxWidth="full">
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
-        <NavbarBrand>
+        <NavbarBrand className="flex-grow-0 md:mr-14">
           <Logo />  
-          <p className="font-bold text-inherit">ACME</p>
+          <p className="font-bold text-inherit">Elite Estates</p>
         </NavbarBrand>
-      </NavbarContent>
-
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="#">
+         <NavbarItem className="hidden sm:flex" isActive>
+          <Link href="#">
             Home
           </Link>
         </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
+        <NavbarItem className="hidden sm:flex">
+          <Link color="foreground" href="#">
             Search
           </Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem className="hidden sm:flex">
           <Link color="foreground" href="#">
             Wishlist
           </Link>
         </NavbarItem>
       </NavbarContent>
+
       <NavbarContent justify="end">
         <NavbarItem className="lg:flex">
           <Link href="#">Login</Link>

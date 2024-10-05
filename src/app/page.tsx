@@ -11,9 +11,12 @@ export default function Home() {
           HomeFinder
           <p className="sm:text-md xs:text-sm md:text-2xl font-normal text-center text-[#293A48] absolute right-0 bottom-[-15px]">By Elite Estates</p>
         </h1> */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-center text-[#293A48] font-['Konkhmer Sleokchher'] my-8 mx-3">
+        <div className="flex justify-center">
+        <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-center text-[#293A48] font-['Konkhmer Sleokchher'] my-8 mx-3 relative w-fit">
           HomeFinder
+          <p className="text-xl lg:text-2xl font-['Konkhmer Sleokchher'] absolute right-0">By Elite Estates</p>
         </h1>
+        </div>
         <div className="flex flex-col md:flex-row justify-center ">
           <HouseSearchBro className="w-[100%] h-[400px] lg:scale-[1.6] xl:scale-[1.8]"/>
           <SearchBar />
