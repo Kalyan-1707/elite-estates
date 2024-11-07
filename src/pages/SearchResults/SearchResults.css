@@ -1,0 +1,9 @@
+.search-results-container {
+}
+
+.filters-form{
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+    padding: 20px 40px;
+}
