@@ -16,12 +16,22 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import NavBar from "../../components/NavBar/NavBar";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import {
   Button,
   Checkbox,
+  Fab,
   FormControl,
   FormControlLabel,
+  Modal,
+  Paper,
   Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
 } from "@mui/material";
 import RangeSelector from "../../components/RangeSelector/RangeSelector";
@@ -37,9 +47,27 @@ import { formatCurrency } from "../../utils/helpers";
 import HouseCard from "../../components/HouseCard/HouseCard";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { useSelector, useDispatch } from "react-redux";
-import { setFavorites, updatePropertyFavorite } from "../../slices/propertySlice";
+import {
+  setFavorites,
+  updatePropertyFavorite,
+} from "../../slices/propertySlice";
 
 const drawerWidth = 300;
+
+const data = [
+  {
+    id: 1,
+    img: "https://via.placeholder.com/100",
+    price: "$200,000",
+    sqft: "1200 sqft",
+  },
+  {
+    id: 2,
+    img: "https://via.placeholder.com/100",
+    price: "$250,000",
+    sqft: "1500 sqft",
+  },
+];
 
 function SearchResults(props) {
   const { window } = props;
@@ -49,6 +77,10 @@ function SearchResults(props) {
   const dispatch = useDispatch();
   const [priceRange, setPriceRange] = React.useState([5000, 500000]);
   const [yearRange, setYearRange] = React.useState([2011, 2024]);
+  const [showCompare, setShowCompare] = React.useState(false);
+  const [compareProperties, setCompareProperties] = React.useState([]);
+  const [disableCompare, setDisableCompare] = React.useState(false);
+  const [showCompareModal, setShowCompareModal] = React.useState(false);
 
   const handleYearChange = (event, newValue) => {
     setYearRange(newValue);
@@ -68,6 +100,12 @@ function SearchResults(props) {
     setMobileOpen(false);
   };
 
+  const toggleCompare = () => {
+    setShowCompare(!showCompare);
+    setCompareProperties([]);
+    setDisableCompare(false);
+  };
+
   const handleDrawerTransitionEnd = () => {
     setIsClosing(false);
   };
@@ -79,7 +117,9 @@ function SearchResults(props) {
   };
 
   const handleToggleFavorite = (id) => {
-    const property = { ...results?.searchResults.find((item) => item.property.zpid === id) };
+    const property = {
+      ...results?.searchResults.find((item) => item.property.zpid === id),
+    };
     if (property?.isFavorite) {
       property.isFavorite = false;
       const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -96,6 +136,23 @@ function SearchResults(props) {
         JSON.stringify([...favorites, property])
       );
       dispatch(updatePropertyFavorite(property));
+    }
+  };
+
+  const updateCompareProperties = (id, checked) => {
+    let updateCompareProperties;
+    if (checked) {
+      updateCompareProperties = [...compareProperties, id];
+      setCompareProperties(updateCompareProperties);
+    } else {
+      updateCompareProperties = compareProperties.filter((item) => item !== id);
+      setCompareProperties(updateCompareProperties);
+    }
+    // check if two values are set and disable compare button
+    if (updateCompareProperties.length >= 2) {
+      setDisableCompare(true);
+    } else {
+      setDisableCompare(false);
     }
   };
 
@@ -232,7 +289,22 @@ function SearchResults(props) {
             rowGap={2}
             columnGap={2}
           >
-            <FormControlLabel control={<Checkbox />} label="Compare" />
+            <FormControlLabel
+              control={<Checkbox />}
+              onChange={toggleCompare}
+              label="Compare"
+            />
+            {disableCompare && (
+              <Button
+                variant="contained"
+                sx={{ position: "fixed", right: 20, bottom: 20, zIndex: 5 }}
+                onClick={() => {
+                  setShowCompareModal(true);
+                }}
+              >
+                Compare
+              </Button>
+            )}
             <Button
               startIcon={<FilterAltOutlinedIcon />}
               aria-label="open drawer"
@@ -256,7 +328,7 @@ function SearchResults(props) {
             rowGap={2}
             columnGap={2}
           >
-            {results?.searchResults.map((item, index) => {
+            {results?.searchResults?.map((item) => {
               return (
                 <HouseCard
                   key={item.property.zpid}
@@ -271,12 +343,176 @@ function SearchResults(props) {
                   img={item.property.media.propertyPhotoLinks.mediumSizeLink}
                   handleToggleFavorite={handleToggleFavorite}
                   isFavorite={item?.isFavorite || false}
+                  showCompare={showCompare}
+                  disableCompare={disableCompare}
+                  updateCompareProperties={updateCompareProperties}
+                  checked={compareProperties.includes(item.property.zpid)}
                 />
               );
             })}
           </Stack>
         </Box>
       </Box>
+      <Modal
+        open={showCompareModal}
+        onClose={() => setShowCompareModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "80%",
+            height: "80%",
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4,
+            overflowY: "auto",
+          }}
+        >
+          {/* close icon to left */}
+          <Stack direction={"row"} justifyContent={"flex-end"} mb={2}>
+            <IconButton aria-label="close-modal" onClick={() => setShowCompareModal(false)}>
+              <CloseOutlinedIcon />
+            </IconButton>
+          </Stack>
+
+          <TableContainer component={Paper}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="right" colSpan={2}>
+                    <img
+                      src={results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[0]   
+                      )?.property.media.propertyPhotoLinks.mediumSizeLink}
+                      width={"100%"}
+                    />
+                  </TableCell>
+                  <TableCell align="right" colSpan={2}>
+                    <img
+                     src={results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[1]   
+                      )?.property.media.propertyPhotoLinks.mediumSizeLink}
+                      width={"100%"}
+                    />
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Address</TableCell>
+                  <TableCell align="right">
+                    {
+                      results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[0]
+                      )?.property.address.streetAddress
+                    }
+                  </TableCell>
+                  <TableCell align="right">
+                    {
+                      results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[1]
+                      )?.property.address.streetAddress
+                    }
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Built</TableCell>
+                  <TableCell align="right">
+                    {
+                      results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[0]
+                      )?.property.yearBuilt
+                    }
+                  </TableCell>
+                  <TableCell align="right">
+                    {
+                      results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[1]
+                      )?.property.yearBuilt
+                    }
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Price</TableCell>
+                  <TableCell align="right">
+                    ${" "}
+                    {formatCurrency(
+                      results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[0]
+                      )?.property.price.value
+                    )}
+                  </TableCell>
+                  <TableCell align="right">
+                    ${" "}
+                    {formatCurrency(
+                      results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[1]
+                      )?.property.price.value
+                    )}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Sq Ft</TableCell>
+                  <TableCell align="right">
+                    {
+                      results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[0]
+                      )?.property.livingArea
+                    }
+                  </TableCell>
+                  <TableCell align="right">
+                    {
+                      results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[1]
+                      )?.property.livingArea
+                    }
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Beds</TableCell>
+                  <TableCell align="right">
+                    {
+                      results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[0]
+                      )?.property.bedrooms
+                    }
+                  </TableCell>
+                  <TableCell align="right">
+                    {
+                      results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[1]
+                      )?.property.bedrooms
+                    }
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Baths</TableCell>
+                  <TableCell align="right">
+                    {
+                      results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[0]
+                      )?.property.bathrooms
+                    }
+                  </TableCell>
+                  <TableCell align="right">
+                    {
+                      results?.searchResults?.find(
+                        (item) => item.property.zpid === compareProperties[1]
+                      )?.property.bathrooms
+                    }
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      </Modal>
     </>
   );
 }

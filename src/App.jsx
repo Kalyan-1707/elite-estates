@@ -9,6 +9,7 @@ import {
   RouterProvider,
 } from "react-router-dom"
 import Wishlist from './pages/Wishlist/Wishlist'
+import PropertyDetail from './pages/PropertyDetail/PropertyDetail'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/wishlist",
     element: <Wishlist/>
+  },
+  {
+    path: "/property/:id",
+    element: <PropertyDetail/>
   }
 ]);
 

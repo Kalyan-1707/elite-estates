@@ -1,14 +1,15 @@
 import axios from 'axios';
+import { getIPAddress } from './ip';
 
 const instance = axios.create({
     baseURL: 'https://zillow-working-api.p.rapidapi.com',
     headers: {
-        'x-rapidapi-key': 'f332bfb540msh08d50ed1fb0625fp1cae83jsnb947b75db659',
+        'x-rapidapi-key': import.meta.env.VITE_RAPID_API_KEY,
         'x-rapidapi-host': 'zillow-working-api.p.rapidapi.com'
     }
 });
 
-export const search = async (location='San Francisco',beds='4', baths='OneHalfPlus', minPrice='5000', maxPrice='10000') => {
+const search = async (location='San Francisco',beds='4', baths='OneHalfPlus', minPrice='5000', maxPrice='10000') => {
     const response = await instance.get('/search/byaddress', {
         params: {
             location: location,
@@ -21,3 +22,30 @@ export const search = async (location='San Francisco',beds='4', baths='OneHalfPl
     console.log(response.data);
     return response.data;
 }
+
+const getLatestHouses = async () => {
+    const IP = await getIPAddress();
+    const city = IP?.city;
+    const response = await instance.get('/search/byaddress', {
+        params: {
+            location: city || 'New York',
+            listingStatus: 'For_Sale',
+            sortOrder: 'Newest',
+        }
+    });
+    console.log(response.data);
+    return { title: `Latest Houses in ${city}`, searchResults: response.data?.searchResults.splice(0, 4)};
+}
+
+
+const getPropertyDetail = async (zpid) => {
+    const response = await instance.get('/pro/byzpid', {
+        params: {
+            zpid: zpid
+        }
+    });
+    console.log(response.data);
+    return response.data;
+}
+
+export { search, getLatestHouses, getPropertyDetail };

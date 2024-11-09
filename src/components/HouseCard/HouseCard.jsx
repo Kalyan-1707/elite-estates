@@ -20,10 +20,11 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import AirlineSeatIndividualSuiteOutlinedIcon from "@mui/icons-material/AirlineSeatIndividualSuiteOutlined";
 import HotTubOutlinedIcon from "@mui/icons-material/HotTubOutlined";
 import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
-import { Button, Stack } from "@mui/material";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
+import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import { Button, Checkbox, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -60,25 +61,46 @@ export default function HouseCard({
   baths = 3,
   id,
   handleToggleFavorite,
-  isFavorite
+  isFavorite,
+  showCompare,
+  disableCompare,
+  updateCompareProperties,
+  checked = false
+
 }) {
   const [expanded, setExpanded] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  const handleLearnMoreClick = () => {
+    // navigate(`/property/${id}`);
+    navigate(`/property/${id}`);
+  };
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
-        component="img"
-        image={img}
-        alt="Paella dish"
         sx={{
           width: 345,
           height: 250,
+          position: "relative",
         }}
-      />
+      >
+        <img src={img} alt="Paella dish" width={"100%"} height={"100%"} />
+        {showCompare && <Checkbox
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+          }}
+          checked={checked}
+          disabled={disableCompare}
+          onChange={(e) => updateCompareProperties(id, e.target.checked)}
+        />}
+      </CardMedia>
       <CardContent>
         <Stack
           direction="row"
@@ -111,14 +133,23 @@ export default function HouseCard({
           justifyContent={"space-between"}
           width={"100%"}
         >
-            <Button size="medium" variant="contained">Learn More</Button>
+          <Button
+            size="medium"
+            variant="contained"
+            onClick={handleLearnMoreClick}
+          >
+            Learn More
+          </Button>
           <Stack direction="row" spacing={1} alignItems="center">
-            <IconButton aria-label="add to favorites" onClick={() => handleToggleFavorite(id)}>
-                {
-                  isFavorite
-                    ? <FavoriteOutlinedIcon color="error" size="medium" />
-                    : <FavoriteBorderOutlinedIcon color="primary" size="medium" />
-                }
+            <IconButton
+              aria-label="add to favorites"
+              onClick={() => handleToggleFavorite(id)}
+            >
+              {isFavorite ? (
+                <FavoriteOutlinedIcon color="error" size="medium" />
+              ) : (
+                <FavoriteBorderOutlinedIcon color="primary" size="medium" />
+              )}
             </IconButton>
             <IconButton aria-label="share">
               <ShareOutlinedIcon color="primary" size="medium" />
