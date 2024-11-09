@@ -25,8 +25,7 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Button, Checkbox, ClickAwayListener, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import {ShareSocial} from 'react-share-social' 
-
+import { ShareSocial } from "react-share-social";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -67,8 +66,7 @@ export default function HouseCard({
   showCompare,
   disableCompare,
   updateCompareProperties,
-  checked = false
-
+  checked = false,
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
@@ -85,114 +83,132 @@ export default function HouseCard({
 
   return (
     <>
-    {showShareModal && <ClickAwayListener onClickAway={() => setShowShareModal(false)} >
-        <div>
-        <ShareSocial
-          url={`${window.location.origin}/property/${id}`}
-          title={address}
-          socialTypes={["facebook", "twitter", "whatsapp", "telegram", "email"]}
-          style={{
-            root: {
-              background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-              borderRadius: 3,
-              border: 0,
-              boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-              color: "white",
+      {showShareModal && (
+        <ClickAwayListener onClickAway={() => setShowShareModal(false)}>
+          <div
+            style={{
               position: "fixed",
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
               zIndex: 2000,
-            },
-            copyContainer: {
-              border: "1px solid blue",
-              background: "rgb(0,0,0,0.7)",
-            },
-            title: {
-              color: "aquamarine",
-              fontStyle: "italic",
-            },
-          }}
-        />
-        </div>
-      </ClickAwayListener>}
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        sx={{
-          width: 345,
-          height: 250,
-          position: "relative",
-        }}
-      >
-        <img src={img} alt="Paella dish" width={"100%"} height={"100%"} />
-        {showCompare && <Checkbox
-          sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-          }}
-          checked={checked}
-          disabled={disableCompare}
-          onChange={(e) => updateCompareProperties(id, e.target.checked)}
-        />}
-      </CardMedia>
-      <CardContent>
-        <Stack
-          direction="row"
-          spacing={2}
-          alignItems="center"
-          justifyContent={"space-between"}
-          sx={{ mb: 1 }}
-        >
-          <Typography gutterBottom variant="h5" component="div">
-            {formatCurrency(price)}
-          </Typography>
-          <Stack direction="row" spacing={2} alignItems="flex-end">
-            <Typography>
-              <AirlineSeatIndividualSuiteOutlinedIcon /> {beds}
-            </Typography>
-            <Typography>
-              <HotTubOutlinedIcon /> {baths}
-            </Typography>
-          </Stack>
-        </Stack>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          <LocationOnOutlinedIcon /> {address} {city}, {state}, {zip}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <Stack
-          direction="row"
-          spacing={2}
-          alignItems="center"
-          justifyContent={"space-between"}
-          width={"100%"}
-        >
-          <Button
-            size="medium"
-            variant="contained"
-            onClick={handleLearnMoreClick}
+            }}
           >
-            Learn More
-          </Button>
-          <Stack direction="row" spacing={1} alignItems="center">
-            <IconButton
-              aria-label="add to favorites"
-              onClick={() => handleToggleFavorite(id)}
-            >
-              {isFavorite ? (
-                <FavoriteOutlinedIcon color="error" size="medium" />
-              ) : (
-                <FavoriteBorderOutlinedIcon color="primary" size="medium" />
-              )}
-            </IconButton>
-            <IconButton aria-label="share">
-              <ShareOutlinedIcon color="primary" size="medium" onClick={() => setShowShareModal(true)} />
-            </IconButton>
+            <ShareSocial
+              url={`${window.location.origin}/property/${id}`}
+              title={address}
+              socialTypes={[
+                "facebook",
+                "twitter",
+                "whatsapp",
+                "telegram",
+                "email",
+              ]}
+              style={{
+                root: {
+                  background:
+                    "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+                  borderRadius: 3,
+                  border: 0,
+                  boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+                  color: "white",
+                },
+                copyContainer: {
+                  border: "1px solid blue",
+                  background: "rgb(0,0,0,0.7)",
+                },
+                title: {
+                  color: "aquamarine",
+                  fontStyle: "italic",
+                },
+              }}
+            />
+          </div>
+        </ClickAwayListener>
+      )}
+      <Card sx={{ maxWidth: 345 }}>
+        <CardMedia
+          sx={{
+            width: 345,
+            height: 250,
+            position: "relative",
+          }}
+        >
+          <img src={img} alt="Paella dish" width={"100%"} height={"100%"} />
+          {showCompare && (
+            <Checkbox
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+              }}
+              checked={checked}
+              disabled={disableCompare}
+              onChange={(e) => updateCompareProperties(id, e.target.checked)}
+            />
+          )}
+        </CardMedia>
+        <CardContent>
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            justifyContent={"space-between"}
+            sx={{ mb: 1 }}
+          >
+            <Typography gutterBottom variant="h5" component="div">
+              {formatCurrency(price)}
+            </Typography>
+            <Stack direction="row" spacing={2} alignItems="flex-end">
+              <Typography>
+                <AirlineSeatIndividualSuiteOutlinedIcon /> {beds}
+              </Typography>
+              <Typography>
+                <HotTubOutlinedIcon /> {baths}
+              </Typography>
+            </Stack>
           </Stack>
-        </Stack>
-      </CardActions>
-    </Card>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            <LocationOnOutlinedIcon /> {address} {city}, {state}, {zip}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            justifyContent={"space-between"}
+            width={"100%"}
+          >
+            <Button
+              size="medium"
+              variant="contained"
+              onClick={handleLearnMoreClick}
+            >
+              Learn More
+            </Button>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <IconButton
+                aria-label="add to favorites"
+                onClick={() => handleToggleFavorite(id)}
+              >
+                {isFavorite ? (
+                  <FavoriteOutlinedIcon color="error" size="medium" />
+                ) : (
+                  <FavoriteBorderOutlinedIcon color="primary" size="medium" />
+                )}
+              </IconButton>
+              <IconButton aria-label="share">
+                <ShareOutlinedIcon
+                  color="primary"
+                  size="medium"
+                  onClick={() => setShowShareModal(true)}
+                />
+              </IconButton>
+            </Stack>
+          </Stack>
+        </CardActions>
+      </Card>
     </>
   );
 }
