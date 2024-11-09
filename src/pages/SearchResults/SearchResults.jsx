@@ -40,7 +40,6 @@ import {
   setFavorites,
   updatePropertyFavorite,
 } from "../../slices/propertySlice";
-
 const drawerWidth = 300;
 
 function SearchResults(props) {
@@ -58,10 +57,10 @@ function SearchResults(props) {
   const [wishlist, setWishlist] = React.useState([]);
 
   React.useEffect(() => {
-    let favs = JSON.parse(localStorage.getItem("favorites"))
-    favs = favs.map((item) => item.property.zpid)
-    setWishlist(favs)
-  },[]);
+    let favs = JSON.parse(localStorage.getItem("favorites"));
+    favs = favs?.map((item) => item.property.zpid);
+    setWishlist(favs);
+  }, []);
 
   const handleYearChange = (event, newValue) => {
     setYearRange(newValue);
@@ -106,12 +105,12 @@ function SearchResults(props) {
   };
 
   React.useEffect(() => {
-    if (wishlist.length > 0) {
+    if (wishlist?.length > 0) {
       const favs = results?.searchResults?.filter((item) =>
         wishlist.includes(item.property.zpid)
       );
-      if(favs.length > 0) 
-      localStorage.setItem("favorites", JSON.stringify(favs));
+      if (favs?.length > 0)
+        localStorage.setItem("favorites", JSON.stringify(favs));
     }
   }, [wishlist]);
 
@@ -316,7 +315,7 @@ function SearchResults(props) {
                   price={item.property.price.value}
                   img={item.property.media.propertyPhotoLinks.mediumSizeLink}
                   handleToggleFavorite={handleToggleFavorite}
-                  isFavorite={wishlist.includes(item.property.zpid)}
+                  isFavorite={wishlist?.includes(item.property.zpid)}
                   showCompare={showCompare}
                   disableCompare={disableCompare}
                   updateCompareProperties={updateCompareProperties}
