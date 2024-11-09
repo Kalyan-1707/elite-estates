@@ -31,7 +31,6 @@ function Wishlist() {
         rowGap={2}
         columnGap={2}
       >
-        <FormControlLabel control={<Checkbox />} label="Compare" />
       </Stack>
 
       <Stack

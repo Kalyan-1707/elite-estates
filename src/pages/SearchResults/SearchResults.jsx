@@ -1,19 +1,8 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import NavBar from "../../components/NavBar/NavBar";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
@@ -54,21 +43,6 @@ import {
 
 const drawerWidth = 300;
 
-const data = [
-  {
-    id: 1,
-    img: "https://via.placeholder.com/100",
-    price: "$200,000",
-    sqft: "1200 sqft",
-  },
-  {
-    id: 2,
-    img: "https://via.placeholder.com/100",
-    price: "$250,000",
-    sqft: "1500 sqft",
-  },
-];
-
 function SearchResults(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -81,6 +55,13 @@ function SearchResults(props) {
   const [compareProperties, setCompareProperties] = React.useState([]);
   const [disableCompare, setDisableCompare] = React.useState(false);
   const [showCompareModal, setShowCompareModal] = React.useState(false);
+  const [wishlist, setWishlist] = React.useState([]);
+
+  React.useEffect(() => {
+    let favs = JSON.parse(localStorage.getItem("favorites"))
+    favs = favs.map((item) => item.property.zpid)
+    setWishlist(favs)
+  },[]);
 
   const handleYearChange = (event, newValue) => {
     setYearRange(newValue);
@@ -117,27 +98,22 @@ function SearchResults(props) {
   };
 
   const handleToggleFavorite = (id) => {
-    const property = {
-      ...results?.searchResults.find((item) => item.property.zpid === id),
-    };
-    if (property?.isFavorite) {
-      property.isFavorite = false;
-      const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-      const updatedFavorites = favorites.filter(
-        (item) => item.property.zpid !== id
-      );
-      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-      dispatch(updatePropertyFavorite(property));
+    if (wishlist.includes(id)) {
+      setWishlist(wishlist.filter((item) => item !== id));
     } else {
-      property.isFavorite = true;
-      const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-      localStorage.setItem(
-        "favorites",
-        JSON.stringify([...favorites, property])
-      );
-      dispatch(updatePropertyFavorite(property));
+      setWishlist([...wishlist, id]);
     }
   };
+
+  React.useEffect(() => {
+    if (wishlist.length > 0) {
+      const favs = results?.searchResults?.filter((item) =>
+        wishlist.includes(item.property.zpid)
+      );
+      if(favs.length > 0) 
+      localStorage.setItem("favorites", JSON.stringify(favs));
+    }
+  }, [wishlist]);
 
   const updateCompareProperties = (id, checked) => {
     let updateCompareProperties;
@@ -155,8 +131,6 @@ function SearchResults(props) {
       setDisableCompare(false);
     }
   };
-
-  React.useEffect(() => {}, []);
 
   const drawer = (
     <div>
@@ -342,7 +316,7 @@ function SearchResults(props) {
                   price={item.property.price.value}
                   img={item.property.media.propertyPhotoLinks.mediumSizeLink}
                   handleToggleFavorite={handleToggleFavorite}
-                  isFavorite={item?.isFavorite || false}
+                  isFavorite={wishlist.includes(item.property.zpid)}
                   showCompare={showCompare}
                   disableCompare={disableCompare}
                   updateCompareProperties={updateCompareProperties}
@@ -376,7 +350,10 @@ function SearchResults(props) {
         >
           {/* close icon to left */}
           <Stack direction={"row"} justifyContent={"flex-end"} mb={2}>
-            <IconButton aria-label="close-modal" onClick={() => setShowCompareModal(false)}>
+            <IconButton
+              aria-label="close-modal"
+              onClick={() => setShowCompareModal(false)}
+            >
               <CloseOutlinedIcon />
             </IconButton>
           </Stack>
@@ -387,17 +364,21 @@ function SearchResults(props) {
                 <TableRow>
                   <TableCell align="right" colSpan={2}>
                     <img
-                      src={results?.searchResults?.find(
-                        (item) => item.property.zpid === compareProperties[0]   
-                      )?.property.media.propertyPhotoLinks.mediumSizeLink}
+                      src={
+                        results?.searchResults?.find(
+                          (item) => item.property.zpid === compareProperties[0]
+                        )?.property.media.propertyPhotoLinks.mediumSizeLink
+                      }
                       width={"100%"}
                     />
                   </TableCell>
                   <TableCell align="right" colSpan={2}>
                     <img
-                     src={results?.searchResults?.find(
-                        (item) => item.property.zpid === compareProperties[1]   
-                      )?.property.media.propertyPhotoLinks.mediumSizeLink}
+                      src={
+                        results?.searchResults?.find(
+                          (item) => item.property.zpid === compareProperties[1]
+                        )?.property.media.propertyPhotoLinks.mediumSizeLink
+                      }
                       width={"100%"}
                     />
                   </TableCell>
