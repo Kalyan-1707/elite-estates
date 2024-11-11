@@ -95,7 +95,7 @@ function SearchResults(props) {
   }, []);
 
   React.useEffect(() => {
-    let favs = JSON.parse(localStorage.getItem("favorites"));
+    let favs = JSON.parse(localStorage.getItem("favorites")) || [];
     favs = favs?.map((item) => item.property.zpid);
     setWishlist(favs);
   }, []);
@@ -135,7 +135,7 @@ function SearchResults(props) {
   };
 
   const handleToggleFavorite = (id) => {
-    if (wishlist.includes(id)) {
+    if (wishlist?.includes(id)) {
       setWishlist(wishlist.filter((item) => item !== id));
     } else {
       setWishlist([...wishlist, id]);
