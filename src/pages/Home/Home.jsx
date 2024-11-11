@@ -35,6 +35,8 @@ function Home() {
 
   const [priceRange, setPriceRange] = useState([5000, 500000]);
   const [latestHouses, setLatestHouses] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const handlePriceChange = (event, newValue) => {
     setPriceRange(newValue);
@@ -48,11 +50,21 @@ function Home() {
     const minPrice = priceRange[0];
     const maxPrice = priceRange[1];
 
+    const params = new URLSearchParams();
+    params.append("location", e.target.location.value);
+    params.append("beds", e.target.beds.value);
+    params.append("baths", e.target.baths.value);
+    params.append("minPrice", priceRange[0]);
+    params.append("maxPrice", priceRange[1]);
+
+    // You can then use the params object to construct a URL
+    const url = `/search?${params.toString()}`;
+
     try {
       const response = await search(location, beds, baths, minPrice, maxPrice);
       console.log(response);
       dispatch(setResults(response));
-      navigate("/search");
+      navigate(url);
     } catch (error) {
       console.log(error);
     }
@@ -60,8 +72,18 @@ function Home() {
 
   useEffect(() => {
     (async function () {
-      const response = await getLatestHouses();
-      setLatestHouses(response);
+      setIsLoading(true);
+      setIsError(false);
+      try {
+        const response = await getLatestHouses();
+        setLatestHouses(response);
+      } catch (error) {
+        setIsLoading(false);
+        setIsError(true);
+        console.log(error);
+      }
+      setIsLoading(false);
+      setIsError(false);
     })();
   }, []);
 
@@ -130,32 +152,44 @@ function Home() {
           {latestHouses?.title}
         </Typography>
         <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{ flexWrap: "wrap" }}
-        rowGap={2}
-        columnGap={2}
-      >
-        {latestHouses?.searchResults.map((item) => {
-          return (
-            <HouseCard
-              key={item.property.zpid}
-              id={item.property.zpid}
-              address={item.property.address.streetAddress}
-              city={item.property.address.city}
-              state={item.property.address.state}
-              zip={item.property.address.zipcode}
-              beds={item.property.bedrooms}
-              baths={item.property.bathrooms}
-              price={item.property.price.value}
-              img={item.property.media.propertyPhotoLinks.mediumSizeLink}
-              //   handleToggleFavorite={handleToggleFavorite}
-              isFavorite={item?.isFavorite || false}
-            />
-          );
-        })}
-      </Stack>
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ flexWrap: "wrap" }}
+          rowGap={2}
+          columnGap={2}
+        >
+          {isLoading && (
+            <>
+              <HouseCard isLoading />
+              <HouseCard isLoading />
+              <HouseCard isLoading />
+              <HouseCard isLoading />
+              <HouseCard isLoading />
+              <HouseCard isLoading />
+            </>
+          )}
+          {latestHouses?.searchResults.map((item) => {
+            return (
+              <HouseCard
+                key={item.property.zpid}
+                id={item.property.zpid}
+                address={item.property.address.streetAddress}
+                city={item.property.address.city}
+                state={item.property.address.state}
+                zip={item.property.address.zipcode}
+                beds={item.property.bedrooms}
+                baths={item.property.bathrooms}
+                price={item.property.price.value}
+                img={item.property.media.propertyPhotoLinks.mediumSizeLink}
+                //   handleToggleFavorite={handleToggleFavorite}
+                isFavorite={item?.isFavorite || false}
+              />
+            );
+          })}
+          {isError && <>Something went wrong, please try again</>}
+          {!latestHouses && <>No houses found.</>}
+        </Stack>
       </Box>
     </>
   );

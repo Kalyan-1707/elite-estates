@@ -23,7 +23,7 @@ import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import { Button, Checkbox, ClickAwayListener, Stack } from "@mui/material";
+import { Button, Checkbox, ClickAwayListener, Skeleton, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ShareSocial } from "react-share-social";
 
@@ -67,6 +67,7 @@ export default function HouseCard({
   disableCompare,
   updateCompareProperties,
   checked = false,
+  isLoading = false
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
@@ -80,6 +81,51 @@ export default function HouseCard({
     // navigate(`/property/${id}`);
     navigate(`/property/${id}`);
   };
+
+  if(isLoading){
+    return <Card sx={{ maxWidth: 345 }}>
+    <CardMedia
+      sx={{
+        width: 345,
+        height: 250,
+        position: "relative",
+      }}
+    >
+      <Skeleton variant="rect" width={"100%"} height={"100%"} />
+    </CardMedia>
+    <CardContent>
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        justifyContent={"space-between"}
+        sx={{ mb: 1 }}
+      >
+        <Skeleton variant="text" width={100} height={24} />
+        <Stack direction="row" spacing={2} alignItems="flex-end">
+          <Skeleton variant="text" width={50} height={18} />
+          <Skeleton variant="text" width={50} height={18} />
+        </Stack>
+      </Stack>
+      <Skeleton variant="text" width={"100%"} height={30} sx={{ color: "text.secondary" }} />
+    </CardContent>
+    <CardActions disableSpacing>
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        justifyContent={"space-between"}
+        width={"100%"}
+      >
+        <Skeleton variant="rect" width={100} height={25} sx={{ borderRadius: 5  }} />
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Skeleton variant="circle" width={40} height={24} sx={{ borderRadius: 4 }} />
+          <Skeleton variant="circle" width={40} height={24} sx={{ borderRadius: 4 }} />
+        </Stack>
+      </Stack>
+    </CardActions>
+  </Card>
+  }
 
   return (
     <>

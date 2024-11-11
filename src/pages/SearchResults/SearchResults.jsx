@@ -38,8 +38,11 @@ import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setFavorites,
+  setResults,
   updatePropertyFavorite,
 } from "../../slices/propertySlice";
+import { useSearchParams } from "react-router-dom";
+import { search } from "../../api/search";
 const drawerWidth = 300;
 
 function SearchResults(props) {
@@ -55,6 +58,41 @@ function SearchResults(props) {
   const [disableCompare, setDisableCompare] = React.useState(false);
   const [showCompareModal, setShowCompareModal] = React.useState(false);
   const [wishlist, setWishlist] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [searchParams] = useSearchParams();
+
+  // get URL Params, get house list
+  React.useEffect(() => {
+    (async () => {
+      
+      // get URL params
+      if(searchParams.size === 0) return;
+      setIsLoading(true);
+      const beds = searchParams.get("beds");
+      const baths = searchParams.get("baths");
+      const minPrice = searchParams.get("minPrice");
+      const maxPrice = searchParams.get("maxPrice");
+      const minYear = searchParams.get("minYear");
+      const location = searchParams.get("location");
+
+      setPriceRange([minPrice, maxPrice]);
+      try {
+        const response = await search(
+          location,
+          beds,
+          baths,
+          minPrice,
+          maxPrice
+        );
+        console.log(response);
+        dispatch(setResults(response));
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
 
   React.useEffect(() => {
     let favs = JSON.parse(localStorage.getItem("favorites"));
@@ -146,6 +184,8 @@ function SearchResults(props) {
             InputLabelProps={{
               shrink: true,
             }}
+            defaultValue={searchParams.get("location") || ""}
+            placeholder="Search by location"
             required
           />
         </FormControl>
@@ -166,13 +206,13 @@ function SearchResults(props) {
         />
         <SelectMenu
           label="Beds"
-          defaultValue={BEDS_DEFAULT_VALUE}
+          defaultValue={searchParams.get("beds") || BEDS_DEFAULT_VALUE}
           selectOptions={BEDS_SELECT_OPTIONS}
           name="beds"
         />
         <SelectMenu
           label="Baths"
-          defaultValue={BATHS_DEFAULT_VALUE}
+          defaultValue={searchParams.get("baths") || BATHS_DEFAULT_VALUE}
           selectOptions={BATHS_SELECT_OPTIONS}
           name="baths"
         />
@@ -301,7 +341,16 @@ function SearchResults(props) {
             rowGap={2}
             columnGap={2}
           >
-            {results?.searchResults?.map((item) => {
+            {isLoading && (
+              <>
+                {Array(9)
+                  .fill()
+                  .map((_, index) => (
+                    <HouseCard key={index} isLoading />
+                  ))}
+              </>
+            )}
+            {!isLoading && results?.searchResults?.map((item) => {
               return (
                 <HouseCard
                   key={item.property.zpid}

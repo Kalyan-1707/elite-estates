@@ -7,6 +7,6 @@ export async function getIPAddress() {
         return response.data;
     } catch (error) {
         console.error('Error fetching IP address:', error);
-        return null;
+        return error;
     }
 }
