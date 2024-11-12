@@ -14,7 +14,9 @@ const search = async (
   beds = "4",
   baths = "OneHalfPlus",
   minPrice = "5000",
-  maxPrice = "10000"
+  maxPrice = "10000",
+  minYear = "2011",
+  maxYear = "2024"
 ) => {
   try {
     const response = await instance.get("/search/byaddress", {
@@ -23,7 +25,8 @@ const search = async (
         listingStatus: "For_Sale",
         bed_min: beds,
         bathrooms: baths,
-        listPriceRange: `min:{minPrice},max:{maxPrice}`,
+        listPriceRange: `min:${minPrice},max:${maxPrice}`,
+        yearBuiltRange: `min:${minYear},max:${maxYear}`,
       },
     });
     return response.data;
@@ -47,8 +50,8 @@ const getLatestHouses = async () => {
     });
     console.log(response.data);
     return {
-      title: `Latest Houses in ${city}`,
-      searchResults: response.data?.searchResults.splice(0, 4),
+      title: `${city}`,
+      searchResults: response.data?.searchResults.splice(0, 9),
     };
   } catch (error) {
     console.log(error);

@@ -28,6 +28,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setResults } from "../../slices/propertySlice";
 import { useNavigate } from "react-router-dom";
 import HouseCard from "../../components/HouseCard/HouseCard";
+import axios from "axios";
 
 function Home() {
   const dispatch = useDispatch();
@@ -37,6 +38,22 @@ function Home() {
   const [latestHouses, setLatestHouses] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const language = useSelector((state) => state.app.language);
+  const [langMapping, setLangMapping] = useState({});
+
+  useEffect(() => {
+    // Change the source file based on the language
+      axios.get(`/localization/${language}.json`)
+      .then(response => {
+        const data = response.data;
+        // Use the data
+        setLangMapping(data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [language]);
+
 
   const handlePriceChange = (event, newValue) => {
     setPriceRange(newValue);
@@ -149,7 +166,7 @@ function Home() {
       </div>
       <Box sx={{ width: "100%", px: { xs: 4, sm: 8 }, py: 4 }}>
         <Typography variant="h4" component="div" sx={{ flexGrow: 1, mb: 2 }}>
-          {latestHouses?.title}
+          {langMapping["Latest Houses in"]+ " "+latestHouses?.title}
         </Typography>
         <Stack
           direction="row"

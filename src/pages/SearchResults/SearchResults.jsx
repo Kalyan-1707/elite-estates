@@ -72,7 +72,6 @@ function SearchResults(props) {
       const baths = searchParams.get("baths");
       const minPrice = searchParams.get("minPrice");
       const maxPrice = searchParams.get("maxPrice");
-      const minYear = searchParams.get("minYear");
       const location = searchParams.get("location");
 
       setPriceRange([minPrice, maxPrice]);
@@ -84,7 +83,6 @@ function SearchResults(props) {
           minPrice,
           maxPrice
         );
-        console.log(response);
         dispatch(setResults(response));
       } catch (error) {
         console.log(error);
@@ -108,9 +106,36 @@ function SearchResults(props) {
     setPriceRange(newValue);
   };
 
-  const handleSearch = (event) => {
+  const handleSearch = async (event) => {
     event.preventDefault();
     console.log(event.target);
+    const location = event.target.location.value;
+    const beds = event.target.beds.value;
+    const baths = event.target.baths.value;
+    const minPrice = priceRange[0];
+    const maxPrice = priceRange[1];
+    const minYear = yearRange[0];
+    const maxYear = yearRange[1];
+
+    setIsLoading(true);
+
+    try {
+        const response = await search(
+          location,
+          beds,
+          baths,
+          minPrice,
+          maxPrice,
+          minYear,
+          maxYear
+        );
+        dispatch(setResults(response));
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+
   };
 
   const handleDrawerClose = () => {
