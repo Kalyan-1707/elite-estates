@@ -65,8 +65,10 @@ function Home() {
     const beds = e.target.beds.value;
     const baths = e.target.baths.value;
     const minPrice = priceRange[0];
-    const maxPrice = priceRange[1];
-
+    var maxPrice = priceRange[1];
+    if (maxPrice = 1000000) {
+      maxPrice = 'max:No_Max';
+    }
     const params = new URLSearchParams();
     params.append("location", e.target.location.value);
     params.append("beds", e.target.beds.value);
@@ -131,12 +133,12 @@ function Home() {
                 name="price"
                 marks={[
                   { value: 5000, label: formatCurrency(5000) },
-                  { value: 500000, label: ` ${formatCurrency(1000000)}+` },
+                  { value: 1000000, label: ` ${formatCurrency(1000000)}+` },
                 ]}
                 min={5000}
-                max={5000000}
+                max={1000000}
                 step={10000}
-                defaultValue={[5000, 5000000]}
+                defaultValue={[5000, 1000000]}
                 formatFunc={(value) => formatCurrency(value)}
                 value={priceRange}
                 setValue={handlePriceChange}

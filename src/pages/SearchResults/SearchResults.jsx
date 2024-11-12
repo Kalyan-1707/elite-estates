@@ -113,10 +113,12 @@ function SearchResults(props) {
     const beds = event.target.beds.value;
     const baths = event.target.baths.value;
     const minPrice = priceRange[0];
-    const maxPrice = priceRange[1];
+    var maxPrice = priceRange[1];
     const minYear = yearRange[0];
     const maxYear = yearRange[1];
-
+    if (maxPrice = 1000000) {
+      maxPrice = 'max:No_Max';
+    }
     setIsLoading(true);
 
     try {
@@ -219,12 +221,12 @@ function SearchResults(props) {
           name="price"
           marks={[
             { value: 5000, label: formatCurrency(5000) },
-            { value: 5000000, label: ` ${formatCurrency(1000000)}+` },
+            { value: 1000000, label: ` ${formatCurrency(1000000)}+` },
           ]}
           min={5000}
-          max={5000000}
+          max={1000000}
           step={10000}
-          defaultValue={[5000, 5000000]}
+          defaultValue={[5000, 1000000]}
           formatFunc={(value) => formatCurrency(value)}
           value={priceRange}
           setValue={handlePriceChange}
@@ -246,10 +248,10 @@ function SearchResults(props) {
           label="Year Built"
           name="year"
           marks={[
-            { value: 2011, label: 2011 },
+            { value: 1980, label: 1980 },
             { value: 2024, label: 2024 },
           ]}
-          min={2011}
+          min={1980}
           max={2024}
           step={1}
           value={yearRange}
