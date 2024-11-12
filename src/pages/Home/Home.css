@@ -1,22 +1,61 @@
+:root{
+  --word-spacing: calc(100cqi / 25cqi);
+}
+@media screen and (min-width: 768px) {
+  .hero-section-container .subtitle{
+      word-spacing:calc(25vw - 10cqi);
+  }
+  .search-section .MuiFormControl-root{
+    width: auto;
+    min-width: 5cqi;
+    max-width: 25cqi;
+    text-align: left;
+    margin: auto;
+    
+  }
+  .search-section .css-133oor0-MuiSlider-root{
+    width: 150%;
+  }
+  .search-section .css-133oor0-MuiSlider-root, 
+  .search-section .css-1xp5r68-MuiFormControl-root-MuiTextField-root{
+  
+    min-width: 10vw;
+    min-width: 10cqi;
+    width: auto;
+    width: auto;
+    text-align: left;
+  }
+ 
+}
 .home-page-container {
-  width: 100vw;
-  height: 100vh;
-  background-image: url("../../assets/background.png");
+  container-type: inline-size;
+  width: auto;
+  min-height: 100vh;
+  height:100%;
+  background: url("../../assets/background-enhanced.png");
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: 50%  70%;
   color: white;
   display: flex;
   flex-direction: column;
 }
-
+.home-page-container p{
+    font-family: "POI Carbonic Trial Light"
+}
 .hero-section-container {
+  container-type: inline-size;
+  width: auto;
+  width: 95cqi;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
   height: 100%;
   flex-grow: 1;
-  padding: 5rem;
+  padding-bottom: 4%;
+  margin: auto;
+  
 }
 
 .hero-section-container .title {
@@ -26,18 +65,39 @@
   font-style: normal;
   font-weight: 500;
   line-height: 50.36px;
+  line-height: 0cqb;
+  align-self: flex-start;
+  max-width: 99%;
+  max-width: 99cqi;
+  justify-content: center;
+  align-self: flex-start;
+
+
+  
+ 
+
 }
 
 .hero-section-container .subtitle {
+  display: flex;
   text-shadow: 0px 4.566px 4.566px rgba(0, 0, 0, 0.25);
   font-family: "Selvia Genatu";
   font-size: 185.361px;
   font-style: normal;
   font-weight: 500;
   line-height: 185.622px;
+  margin-bottom: 10cqb;
+  max-width: 99%;
+  max-width: 99cqi;
+  justify-content: center;
+  align-self: flex-start;
+
+
+  
 }
 
 .search-section {
+  container-type: inline-size;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -46,22 +106,35 @@
   padding: 20px 10px;
 }
 
+
+.search-section .css-swtyag-MuiSlider-markLabel, .search-section .css-1xp5r68-MuiFormControl-root-MuiTextField-root{
+  text-align: left;
+  font-size: 1rem !important;
+  p{
+    font-size: 1rem !important;
+   
+  }
+}
 .search-form {
-  width: 80%;
+  width: 85%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  column-gap: 50px;
+  justify-content: space-between;
+  gap: 5%;
   border-radius: 4.707px;
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 0px 4.292px 4.292px 0px rgba(108, 104, 104, 0.5);
-  padding: 20px 40px;
+  padding: 10px 20px;
 }
-
+.search-form > *{
+  flex-grow: 1;
+  padding: 1%;
+}
 .search-form .search-input {
   border: none;
   outline: none;
+ 
 }
 
 .search-form .search-input {

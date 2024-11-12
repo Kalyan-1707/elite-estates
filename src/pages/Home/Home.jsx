@@ -110,7 +110,7 @@ function Home() {
         <NavBar />
         <section className="hero-section-container">
           <span className="title">Elite Estates</span>
-          <span className="subtitle">Dream Home .</span>
+          <span className="subtitle">Dream Home.</span>
         </section>
         <section className="search-section">
           <form className="search-form" onSubmit={handleSearch}>
