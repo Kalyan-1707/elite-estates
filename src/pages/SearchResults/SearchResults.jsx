@@ -201,7 +201,7 @@ function SearchResults(props) {
       <Divider />
 
       <form className="filters-form" onSubmit={handleSearch}>
-        <Typography>Refine Your Search</Typography>
+        <Typography className="filters-title">Refine Your Search</Typography>
         <FormControl variant="standard" sx={{ width: "100%" }}>
           <TextField
             id="location"
@@ -272,7 +272,7 @@ function SearchResults(props) {
   return (
     <>
       <NavBar dark />
-      <Box sx={{ display: "flex" }}>
+      <Box className="search-results-container" sx={{ display: "flex" }}>
         <Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}

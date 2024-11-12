@@ -7,6 +7,7 @@ import HotelOutlinedIcon from "@mui/icons-material/HotelOutlined";
 import BathtubOutlinedIcon from "@mui/icons-material/BathtubOutlined";
 import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -239,6 +240,7 @@ export default function PropertyDetail() {
             })}
           </Stack>
           {/* Agent Details */}
+          <div className="actionButtons">
           <Card sx={{ width: "100%", maxWidth: 450 }}>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
@@ -269,8 +271,8 @@ export default function PropertyDetail() {
                   <SupportAgentIcon
                     sx={{ height: "100%", width: "auto", marginRight: 1, maxWidth: "100px" }}
                   />
-                  <Box sx={{ display: "flex", flexDirection: "column" }}>
-                    <Typography variant="inherit" sx={{ }}>
+                  <Box sx={{ display: "flex", flexDirection: "column" }} >
+                    <Typography variant="inherit" sx={{ }} className="agentName">
                       {property?.attributionInfo?.agentName || "N/A"}
                     </Typography>
                     <Typography
@@ -292,6 +294,20 @@ export default function PropertyDetail() {
               </Stack>
             </CardContent>
           </Card>
+          <Card sx={{ width: "100%", maxWidth: 450 }} className="saveButton">
+         
+                     <Box sx={{ display: "flex", flexDirection: "column" }}>
+                     <LibraryAddIcon className="saveIcon" 
+                    sx={{ height: "100%" } }
+                  />
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                   Save
+                  </Typography>
+                
+                </Box>
+          </Card>
+          </div>
+          
         </Box>
         <Box
           sx={{

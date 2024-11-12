@@ -1,9 +1,48 @@
 .search-results-container {
 }
-
+@media screen and (min-width: 768px){
+    .filters-title{
+        font-family: "POI Carbonic Trial Light";
+        font-size: 1.3rem !important;
+    }
+}
 .filters-form{
     display: flex;
     flex-direction: column;
     row-gap: 40px;
-    padding: 20px 40px;
+    padding: 20px 30px;
+    background-color: #C4D4E3;
+    font-family: "POI Carbonic Trial Light";
+    height: 80vh;
+    height: 80cqh;
+ 
+}
+.filters-title{
+    font-family: "POI Carbonic Trial Light";
+}
+.search-results-container{
+    container-type: inline-size;
+    overflow-y: hidden !important;
+}
+.css-1ub84jy-MuiStack-root{
+    height: 80vh;
+    height: 80cqh;
+    overflow-y: scroll;
+}
+.MuiBox-root .css-1hdvzm3{
+    padding: 1%;
+}
+
+.MuiBox-root .css-1097p6o{
+    position: relative;
+    padding: 1%;
+ 
+    top: 5vh;
+    top: 5cqh;
+}
+.css-1epwles-MuiStack-root{
+    height: 5vh;
+    height: 5cqh;
+    position: relative;
+    top: 0vh;
 }

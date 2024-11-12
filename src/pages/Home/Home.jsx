@@ -1,5 +1,7 @@
+
 import React, { useEffect, useState } from "react";
 import "./Home.css";
+import "../SearchResults/SearchResults.css";
 import NavBar from "../../components/NavBar/NavBar";
 import {
   Box,
@@ -164,6 +166,7 @@ function Home() {
           </form>
         </section>
       </div>
+      
       <Box sx={{ width: "100%", px: { xs: 4, sm: 8 }, py: 4 }}>
         <Typography variant="h4" component="div" sx={{ flexGrow: 1, mb: 2 }}>
           {langMapping["Latest Houses in"]+ " "+latestHouses?.title}
