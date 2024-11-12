@@ -8,6 +8,9 @@ import BathtubOutlinedIcon from "@mui/icons-material/BathtubOutlined";
 import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
