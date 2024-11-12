@@ -219,12 +219,12 @@ function SearchResults(props) {
           name="price"
           marks={[
             { value: 5000, label: formatCurrency(5000) },
-            { value: 500000, label: formatCurrency(500000) },
+            { value: 5000000, label: ` ${formatCurrency(1000000)}+` },
           ]}
           min={5000}
-          max={500000}
-          step={1000}
-          defaultValue={[5000, 500000]}
+          max={5000000}
+          step={10000}
+          defaultValue={[5000, 5000000]}
           formatFunc={(value) => formatCurrency(value)}
           value={priceRange}
           setValue={handlePriceChange}

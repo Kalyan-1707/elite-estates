@@ -34,7 +34,7 @@ function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [priceRange, setPriceRange] = useState([5000, 500000]);
+  const [priceRange, setPriceRange] = useState([5000, 5000000]);
   const [latestHouses, setLatestHouses] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -120,9 +120,7 @@ function Home() {
                 label="Location"
                 variant="standard"
                 name="location"
-                InputLabelProps={{
-                  shrink: true,
-                }}
+               
                 required
               />
             </FormControl>
@@ -133,12 +131,12 @@ function Home() {
                 name="price"
                 marks={[
                   { value: 5000, label: formatCurrency(5000) },
-                  { value: 500000, label: formatCurrency(500000) },
+                  { value: 500000, label: ` ${formatCurrency(1000000)}+` },
                 ]}
                 min={5000}
-                max={500000}
-                step={1000}
-                defaultValue={[5000, 500000]}
+                max={5000000}
+                step={10000}
+                defaultValue={[5000, 5000000]}
                 formatFunc={(value) => formatCurrency(value)}
                 value={priceRange}
                 setValue={handlePriceChange}
