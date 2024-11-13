@@ -43,14 +43,14 @@ const getLatestHouses = async () => {
     try {
     const response = await instance.get("/search/byaddress", {
       params: {
-        location: city || "New York",
+        location: city || "Charlotte",
         listingStatus: "For_Sale",
         sortOrder: "Newest",
       },
     });
     console.log(response.data);
     return {
-      title: `${city}`,
+      title: city || "Charlotte",
       searchResults: response.data?.searchResults.splice(0, 9),
     };
   } catch (error) {
