@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import HotelOutlinedIcon from "@mui/icons-material/HotelOutlined";
 import BathtubOutlinedIcon from "@mui/icons-material/BathtubOutlined";
 import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined";
+import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
@@ -16,6 +16,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
+import axios from "axios";
 
 import "./PropertyDetail.css";
 
@@ -28,39 +29,61 @@ import {
   Divider,
   Stack,
   Typography,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Checkbox,
+  ListItemText,
+  OutlinedInput,
 } from "@mui/material";
 import NavBar from "../../components/NavBar/NavBar";
 import { formatCurrency } from "../../utils/helpers";
 import { useParams } from "react-router-dom";
 import { getPropertyDetail } from "../../api/search";
+import NearbyPlaces from "./NearbyPlaces";
 
 export default function PropertyDetail() {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const params = useParams();
   const propertyId = params.id;
   const [topImages, setTopImages] = useState([]);
-
+  const mainSwiperRef = useRef(null);
+  const [places, setPlaces] = useState([]);
   const [property, setProperty] = useState({});
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  const possibleCategories = ['commercial', 'education', 'catering', 'service', 'healthcare'];
 
   console.log(propertyId);
 
   useEffect(() => {
-    
-    (async () => {
+    const fetchPropertyDetails = async () => {
       const response = await getPropertyDetail(propertyId);
       setProperty(response?.propertyDetails);
       setTopImages(getTopImageURL(response?.propertyDetails?.originalPhotos));
-    })();
+    };
 
-  }, []);
+    fetchPropertyDetails();
+  }, [propertyId]);
 
   const getTopImageURL = (photosArray) => {
-      const images = photosArray?.splice(0, 10)?.map((photo) => {
-          return photo?.mixedSources?.jpeg[0]?.url
-      })
+    const images = photosArray?.splice(0, 10)?.map((photo) => {
+      return photo?.mixedSources?.jpeg[0]?.url;
+    });
 
-      return images
-  }
+    return images;
+  };
+
+  const handleCategoryChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setSelectedCategories(
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
 
   return (
     <>
@@ -105,7 +128,7 @@ export default function PropertyDetail() {
             direction="row"
             sx={{
               alignItems: "center",
-              columnGap: 3,
+              columnGap: 2,
             }}
           >
             <Typography
@@ -198,6 +221,44 @@ export default function PropertyDetail() {
               {property?.bathrooms} Bathrooms
             </Typography>
           </Stack>
+          {/* Multi-Select Categories */}
+          <Stack direction="row" alignItems="center" spacing={2} className="nearby-label">
+            <Typography
+              sx={{
+                color: "#293A48",
+                fontFamily: "POI Carbonic Trial",
+                fontSize: { xs: 14.259, sm: 18.259 },
+                fontStyle: "normal",
+                fontWeight: 500,
+                lineHeight: "normal",
+              }}
+            >
+            Find
+            </Typography>
+            <FormControl variant="standard" sx={{ minWidth: 200 }}>
+        {!selectedCategories.length && (
+          <InputLabel id="categories-label" shrink={false}>Nearby Places</InputLabel>
+        )}
+          <Select
+            labelId="categories-label"
+            id="categories"
+            multiple
+            value={selectedCategories}
+            onChange={handleCategoryChange}
+            renderValue={(selected) => selected.join(', ')}
+          >
+            {possibleCategories.map((category) => (
+              <MenuItem key={category} value={category}>
+                <Checkbox checked={selectedCategories.indexOf(category) > -1} />
+                <ListItemText primary={category} />
+              </MenuItem>
+            ))}
+          </Select>
+            </FormControl>
+            Near this property
+          </Stack>
+          {/* Nearby Places */}
+          {selectedCategories.length > 0 && <NearbyPlaces property={property} categories={selectedCategories} />}
           {/* Description */}
           <Typography
             sx={{
@@ -244,73 +305,68 @@ export default function PropertyDetail() {
           </Stack>
           {/* Agent Details */}
           <div className="actionButtons">
-          <Card sx={{ width: "100%", maxWidth: 450 }}>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Contact
-              </Typography>
-              {/* Agent */}
-              <Stack
-                direction="row"
-                sx={{
-                  alignItems: "center",
-                  columnGap: 3,
-                  flexWrap: "wrap",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: "#293A48",
-                    fontFamily: "POI Carbonic Trial",
-                    fontSize: { xs: 15.482, sm: 28.456 },
-                    fontStyle: "normal",
-                    fontWeight: 300,
-                    lineHeight: "normal",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <SupportAgentIcon
-                    sx={{ height: "100%", width: "auto", marginRight: 1, maxWidth: "100px" }}
-                  />
-                  <Box sx={{ display: "flex", flexDirection: "column" }} >
-                    <Typography variant="inherit" sx={{ }} className="agentName">
-                      {property?.attributionInfo?.agentName || "N/A"}
-                    </Typography>
-                    <Typography
-                      variant="inherit"
-                      sx={{ fontSize: { xs: 12, sm: 18 } }}
-                    >
-                      Agent
-                    </Typography>
-                  </Box>
-                </Typography>
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    {property?.attributionInfo?.agentPhoneNumber || "N/A"}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    {property?.attributionInfo?.agentEmail || "N/A"}
-                  </Typography>
-                </Box>
-              </Stack>
-            </CardContent>
-          </Card>
-          <Card sx={{ width: "100%", maxWidth: 450 }} className="saveButton">
-         
-                     <Box sx={{ display: "flex", flexDirection: "column" }}>
-                     <LibraryAddIcon className="saveIcon" 
-                    sx={{ height: "100%" } }
-                  />
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                   Save
-                  </Typography>
-                
-                </Box>
-          </Card>
-          </div>
-          
+  <Card sx={{ width: "100%" }} className="agentCard">
+    <CardContent>
+      <Typography gutterBottom variant="h5" component="div">
+        Contact
+      </Typography>
+      {/* Agent */}
+      <Stack
+        direction="row"
+        sx={{
+          alignItems: "center",
+          columnGap: 3,
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography
+          sx={{
+            color: "#293A48",
+            fontFamily: "POI Carbonic Trial",
+            fontSize: { xs: 15.482, sm: 28.456 },
+            fontStyle: "normal",
+            fontWeight: 300,
+            lineHeight: "normal",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <SupportAgentIcon
+            sx={{ height: "100%", width: "auto", maxWidth: "100px" }}
+          />
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography variant="inherit" sx={{}} className="agentName">
+              {property?.attributionInfo?.agentName || "N/A"}
+            </Typography>
+            <Typography
+              variant="inherit"
+              sx={{ fontSize: { xs: 12, sm: 18 } }}
+            >
+              Agent
+            </Typography>
+          </Box>
+        </Typography>
+        <Box sx={{ display: "flex", flexDirection: "column" }} className="agentContact">
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            {property?.attributionInfo?.agentPhoneNumber || "N/A"}
+          </Typography>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            {property?.attributionInfo?.agentEmail || "N/A"}
+          </Typography>
+        </Box>
+      </Stack>
+    </CardContent>
+  </Card>
+  <Card sx={{ width: "100%", maxWidth: 450 }} className="saveButton">
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
+      <LibraryAddIcon className="saveIcon" sx={{ height: "100%" }} />
+      <Typography variant="body2" sx={{ color: "text.secondary" }}>
+        Save
+      </Typography>
+    </Box>
+  </Card>
+</div>
         </Box>
         <Box
           sx={{
@@ -361,12 +417,14 @@ export default function PropertyDetail() {
         </Box>
       </Stack>
       {/* open this link in iframe https://www.zillow.com/view-imx/bf8d5927-5568-4448-9ca4-e717c06c0cc4?setAttribution=mls&wl=true&initialViewType=pano&utm_source=dashboard */}
-      {property?.virtualTourUrl && <iframe
-        src={property?.virtualTourUrl}
-        width="100%"
-        height="800px"
-        allowFullScreen
-      ></iframe>}
+      {property?.virtualTourUrl && (
+        <iframe
+          src={property?.virtualTourUrl}
+          width="100%"
+          height="800px"
+          allowFullScreen
+        ></iframe>
+      )}
     </>
   );
 }

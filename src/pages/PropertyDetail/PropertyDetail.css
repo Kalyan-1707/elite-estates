@@ -1,46 +1,116 @@
-.css-vd5csi-MuiPaper-root-MuiCard-root{
+
+*{
+  font-family: "POI Carbonic Trial Light";
+
+}.css-vd5csi-MuiPaper-root-MuiCard-root{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   padding: .5% !important;
   background: #C4D4E3 !important;
   font-family: "POI Carbonic Trial Light";
-  container-type: inline-size;
   height: 18vh;
   padding-bottom: 0% !important;
-  align-self: flex-start;
   margin: auto;
+  width: auto;
+  display: flex;
+  container-type: inline-size;
+
+}
+.agentCard {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  background: #C4D4E3 !important;
+  height: 18vh;
+  margin: auto;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  width: auto !important;
+  min-width: 60%;
+  max-width: 70%;
+  padding-right: 0px !important;
+  margin-right: auto;
+}
+.agentName{
+  word-wrap: pre-wrap !important;
+  float: left;
+  margin-left: 1%;
+}
+.agentContact{
+  float: right;
+ 
+}
+@media screen and (min-width: 768px){
+  .css-j7qwjs p{
+    font-size:1.1rem;
+
+  }
+  .saveButton{
+
+    font-size: large !important;
+  }
+  .agentName{
+    font-size: 1.5rem !important;
+    min-width: 35cqi;
+    width: auto;
+    max-width: 50%;
+
+  }
+  .agentContact{
+    width: 60cqi;
+    max-width: 60%;
+  }
 
 }
 .saveButton{
-  max-width: 10vw !important;
+  width: 20% !important;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: large !important;
+  margin: auto;
+  padding: 1%;
 }
-.css-j7qwjs p{
-  font-size:1.3rem  ;
 
-}
 .saveIcon{
   font-size: 80px!important;
 }
 .actionButtons{
+  display: flex; 
+  align-items: center;
+  width: 100%;
+  container-type: inline-size;
   width: 95% !important;
   display: flex;
   justify-content: flex-start
-  align-items: center;
-  width: 100%;
+  
+  
+}
+.nearby-place-name{
+  font-size: larger !important;
+  font-family: "POI Carbonic Trial Light";
+
+}
+.nearby-icon{
+  font-size: larger !important;
+  font-family: "POI Carbonic Trial Light";
+
+
+}
+.nearby-label{
+  font-size: medium;
+  font-family: "POI Carbonic Trial Light";
   
 }
 .css-1lt5qva-MuiCardContent-root{
-  padding: 1% !important;
+  padding: 1% 0%;
+  width: 100%;
 }
 .css-17m0n7i-MuiTypography-root{
   width: 99%;
   margin: auto;
   overflow-y: scroll;
-  max-height: 25vh;
+  max-height: 19vh;
   padding:2% .5%;
   padding-right: 5%;
 
@@ -54,12 +124,9 @@
   font-weight: 700;
   font-size: 1.5rem !important;
 }
-.agentName{
-  font-size: 1.5rem !important;
-  width: 40cqi;
-}
+
 .MuiBox-root.css-j7qwjs{
-  max-width: 50%;
+ 
   width: auto;
   font-size: large !important;
 }
@@ -154,4 +221,61 @@
     object-fit: cover;
     border-radius: 20px;
   }
+ 
+  @media only screen and (max-width: 768px){
+     .actionButtons{
+      min-width: 100vw !important;
+      max-width: 100vw !important;
+     }
+    .css-vd5csi-MuiPaper-root-MuiCard-root,.agentCard,.saveButton{
+      min-height: 15vh;
+      max-height: 15vh;
+
+    }
+    .css-1lt5qva-MuiCardContent-root{
+      padding: 0% 0% !important;
+    }
+    .agentCard{
+
+      width: 65vw!important;
+    }
+    .saveButton{
+      width: 25vw !important;
+    }
+    .css-j7qwjs p,.css-j7qwjs{
+      font-size:smaller;
+      white-space: pre-wrap;
+      max-width: 50%;
+    }
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 70%;
+      object-fit: cover;
+    }
+    .swiper {
+      position: relative;
+
+      max-height: 350px;
+      height: 350px;
+      width: 95%;
+
+     
+    }
+    .mySwiper{
+      display: none;
+    }
+    .mySwiper2 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 350px;
+      width: 95%;
+      margin-bottom: 360px;
+
+      
+    }
+    
   
+    
+  }
