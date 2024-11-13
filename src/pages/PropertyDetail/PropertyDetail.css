@@ -31,16 +31,18 @@
   padding-right: 0px !important;
   margin-right: auto;
 }
-.agentName{
+.agentName,.agentContact{
+  max-width: 80% !important;
+  
   word-wrap: pre-wrap !important;
   float: left;
   margin-left: 1%;
 }
-.agentContact{
-  float: right;
- 
-}
+
 @media screen and (min-width: 768px){
+  .saveIcon{
+    font-size: 80px!important;
+  }
   .css-j7qwjs p{
     font-size:1.1rem;
 
@@ -50,20 +52,21 @@
     font-size: large !important;
   }
   .agentName{
-    font-size: 1.5rem !important;
+    font-size: 1.25rem !important;
     min-width: 35cqi;
     width: auto;
     max-width: 50%;
 
   }
   .agentContact{
-    width: 60cqi;
-    max-width: 60%;
+    width: 55cqi;
+    max-width: 55%;
   }
 
 }
 .saveButton{
-  width: 20% !important;
+  width: 25% !important;
+  max-width: 25% ;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,9 +75,7 @@
   padding: 1%;
 }
 
-.saveIcon{
-  font-size: 80px!important;
-}
+
 .actionButtons{
   display: flex; 
   align-items: center;
@@ -224,12 +225,14 @@
  
   @media only screen and (max-width: 768px){
      .actionButtons{
-      min-width: 100vw !important;
-      max-width: 100vw !important;
+      margin: auto;
+      max-width: 99vw !important;
+      margin: auto;
+      float: left;
      }
     .css-vd5csi-MuiPaper-root-MuiCard-root,.agentCard,.saveButton{
-      min-height: 15vh;
-      max-height: 15vh;
+      min-height: 12vh;
+      max-height: 12vh;
 
     }
     .css-1lt5qva-MuiCardContent-root{
@@ -237,10 +240,29 @@
     }
     .agentCard{
 
-      width: 65vw!important;
+      width: 75vw!important;
+    }
+    .agentName{
+      min-width: 25vw !important;
+      width: auto;
+      max-width: 55%;
+  
+    }
+    .agentContact,.agentName{
+     min-width: 45vw !important;
+    }
+    .agentCard .MuiSvgIcon-root{
+      font-size: 1.1rem;
+      margin-left: -1.5%;
+      max-width: 15vw;
     }
     .saveButton{
-      width: 25vw !important;
+      min-width: 20vw !important;
+      
+      width: 20vw !important;
+    }
+    .saveIcon{
+      font-size: 40px !important;
     }
     .css-j7qwjs p,.css-j7qwjs{
       font-size:smaller;
@@ -266,12 +288,12 @@
       display: none;
     }
     .mySwiper2 {
-      position: absolute;
-      top: 0;
-      left: 0;
+     
       height: 350px;
       width: 95%;
-      margin-bottom: 360px;
+      margin: auto;
+      position: relative;
+      top:0%;
 
       
     }

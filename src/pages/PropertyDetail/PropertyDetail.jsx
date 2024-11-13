@@ -305,47 +305,28 @@ export default function PropertyDetail() {
           </Stack>
           {/* Agent Details */}
           <div className="actionButtons">
-  <Card sx={{ width: "100%" }} className="agentCard">
-    <CardContent>
-      <Typography gutterBottom variant="h5" component="div">
-        Contact
-      </Typography>
-      {/* Agent */}
-      <Stack
-        direction="row"
-        sx={{
-          alignItems: "center",
-          columnGap: 3,
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-        }}
-      >
+          <Card sx={{ width: "100%" }} className="agentCard">
+          <CardContent>
+    {/* Agent */}
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
+      }}
+    >
+      <SupportAgentIcon
+        sx={{ height: "100%", width: "auto", maxWidth: "100px" }}
+      />
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Typography variant="inherit" sx={{}} className="agentName">
+          {property?.attributionInfo?.agentName || "N/A"}
+        </Typography>
         <Typography
-          sx={{
-            color: "#293A48",
-            fontFamily: "POI Carbonic Trial",
-            fontSize: { xs: 15.482, sm: 28.456 },
-            fontStyle: "normal",
-            fontWeight: 300,
-            lineHeight: "normal",
-            display: "flex",
-            alignItems: "center",
-          }}
+          variant="inherit"
+          sx={{ fontSize: { xs: 12, sm: 18 } }}
         >
-          <SupportAgentIcon
-            sx={{ height: "100%", width: "auto", maxWidth: "100px" }}
-          />
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography variant="inherit" sx={{}} className="agentName">
-              {property?.attributionInfo?.agentName || "N/A"}
-            </Typography>
-            <Typography
-              variant="inherit"
-              sx={{ fontSize: { xs: 12, sm: 18 } }}
-            >
-              Agent
-            </Typography>
-          </Box>
+          Agent
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "column" }} className="agentContact">
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
@@ -355,17 +336,18 @@ export default function PropertyDetail() {
             {property?.attributionInfo?.agentEmail || "N/A"}
           </Typography>
         </Box>
-      </Stack>
-    </CardContent>
-  </Card>
-  <Card sx={{ width: "100%", maxWidth: 450 }} className="saveButton">
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <LibraryAddIcon className="saveIcon" sx={{ height: "100%" }} />
-      <Typography variant="body2" sx={{ color: "text.secondary" }}>
-        Save
-      </Typography>
+      </Box>
     </Box>
-  </Card>
+  </CardContent>
+</Card>
+<Card sx={{ width: "100%", maxWidth: 450 }} className="saveButton">
+  <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <LibraryAddIcon className="saveIcon" sx={{ height: "100%" }} />
+    <Typography variant="body2" sx={{ color: "text.secondary" }}>
+      Save
+    </Typography>
+  </Box>
+</Card>
 </div>
         </Box>
         <Box
