@@ -11,5 +11,8 @@
     "Refine Your Search": "Refinar tu búsqueda",
     "Year Built": "Año construido",
     "Filter": "Filtrar",
-    "Compare": "Comparar"
+    "Compare": "Comparar",
+    "404_Title":"Lo siento, hemos perdido el camino",
+    "404_Desc":"Lo sentimos. Por favor, visita nuestra página principal para donde necesitas ir.",
+    "404_Button":"Me lleve ahí!"
 }

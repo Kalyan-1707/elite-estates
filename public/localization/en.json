@@ -11,5 +11,9 @@
     "Refine Your Search": "Refine Your Search",
     "Year Built": "Year Built",
     "Filter": "Filter",
-    "Compare": "Compare"
+    "Compare": "Compare",
+    "404_Title":"Looks like you've found the doorway to the great nothing",
+    "404_Desc":"Sorry about that! Please visit our hompage to get where you need to go.",
+    "404_Button":"Take me there!"
+
 }
