@@ -5,12 +5,7 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import HotelOutlinedIcon from "@mui/icons-material/HotelOutlined";
 import BathtubOutlinedIcon from "@mui/icons-material/BathtubOutlined";
 import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined";
-import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
-import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import IosShareIcon from "@mui/icons-material/IosShare";
 // Import Swiper styles
 import "swiper/css";
@@ -58,7 +53,7 @@ export default function PropertyDetail() {
   const mainSwiperRef = useRef(null);
   const [places, setPlaces] = useState([]);
   const [property, setProperty] = useState({});
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState(["education"]);
   const [showShareModal, setShowShareModal] = useState(false);
 
   const possibleCategories = [
@@ -71,6 +66,7 @@ export default function PropertyDetail() {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  // fetch property details
   useEffect(() => {
     setIsLoading(true);
     const fetchPropertyDetails = async () => {
@@ -83,6 +79,7 @@ export default function PropertyDetail() {
     fetchPropertyDetails();
   }, [propertyId]);
 
+  // get top 10 images
   const getTopImageURL = (photosArray) => {
     const images = photosArray?.splice(0, 10)?.map((photo) => {
       return photo?.mixedSources?.jpeg[0]?.url;
@@ -91,6 +88,7 @@ export default function PropertyDetail() {
     return images;
   };
 
+  // handle category change
   const handleCategoryChange = (event) => {
     const {
       target: { value },
@@ -98,6 +96,7 @@ export default function PropertyDetail() {
     setSelectedCategories(typeof value === "string" ? value.split(",") : value);
   };
 
+  // handle scroll to top
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -117,6 +116,7 @@ export default function PropertyDetail() {
             p: 4,
             flexWrap: { xs: "wrap", sm: "nowrap" },
             gap: "20px",
+            height: "100vh - 64px",
           }}
         >
           <Box
@@ -145,6 +145,12 @@ export default function PropertyDetail() {
               height={200}
               sx={{ borderRadius: 2 }}
             />
+            <Skeleton
+              variant="rect"
+              width="100%"
+              height={200}
+              sx={{ borderRadius: 2 }}
+            />
           </Box>
           <Box
             sx={{
@@ -158,7 +164,7 @@ export default function PropertyDetail() {
               variant="rect"
               width="100%"
               height={350}
-              sx={{ borderRadius: 2 }}
+              sx={{ borderRadius: 2, flexGrow: 1 }}
             />
             <Skeleton
               variant="rect"
@@ -168,6 +174,13 @@ export default function PropertyDetail() {
             />
           </Box>
         </Stack>
+        <Skeleton
+          variant="rect"
+          width="100%"
+          height={1200}
+          sx={{ borderRadius: 2 }}
+        />
+
       </>
     );
   }
@@ -175,13 +188,23 @@ export default function PropertyDetail() {
   return (
     <>
       <NavBar dark />
+      {/* scroll to top button */}
       <IconButton
         onClick={handleScrollToTop}
+        size="large"
         aria-label="scroll to top"
-        sx={{ position: "fixed", right: 20, bottom: 20, zIndex: 5, color: "white", background: "#293A48" }}
+        sx={{
+          position: "fixed",
+          right: 20,
+          bottom: 20,
+          zIndex: 5,
+          color: "white",
+          background: "#293A48",
+        }}
       >
         <ArrowUpwardOutlinedIcon />
       </IconButton>
+      {/* property details */}
       <Stack
         direction="row"
         sx={{
@@ -190,6 +213,7 @@ export default function PropertyDetail() {
           p: 4,
           flexWrap: { xs: "wrap", sm: "nowrap" },
           gap: "20px",
+          height: "100vh - 64px",
         }}
       >
         <Box
@@ -200,6 +224,7 @@ export default function PropertyDetail() {
             rowGap: 1,
           }}
         >
+          {/* Address */}
           <Typography
             sx={{
               color: "#293A48",
@@ -316,7 +341,96 @@ export default function PropertyDetail() {
               {property?.bathrooms} Bathrooms
             </Typography>
           </Stack>
+          {/* Description */}
+          <Typography
+            sx={{
+              color: "#293A48",
+              fontFamily: "POI Carbonic Trial",
+              fontSize: { xs: 14.259, sm: 26.209 },
+              fontStyle: "normal",
+              fontWeight: 600,
+              lineHeight: "normal",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            Description
+          </Typography>
+          <Typography
+            sx={{
+              color: "#293A48",
+              fontFamily: "POI Carbonic Trial",
+              fontSize: { xs: 14.259, sm: 26.209 },
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "normal",
+            }}
+          >
+            {property?.description}
+          </Typography>
+          {/* Home Insights */}
+          <Typography
+            sx={{
+              color: "#293A48",
+              fontFamily: "POI Carbonic Trial",
+              fontSize: { xs: 14.259, sm: 26.209 },
+              fontStyle: "normal",
+              fontWeight: 600,
+              lineHeight: "normal",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            Home Insights
+          </Typography>
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              columnGap: 3,
+              flexWrap: "wrap",
+            }}
+          >
+            {property?.homeInsights?.[0]?.insights?.[0]?.phrases.map(
+              (value, index) => {
+                return (
+                  <Typography
+                    key={index}
+                    sx={{
+                      color: "#293A48",
+                      fontFamily: "POI Carbonic Trial",
+                      fontSize: { xs: 15.482, sm: 28.456 },
+                      fontStyle: "normal",
+                      fontWeight: 300,
+                      lineHeight: "normal",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ArrowForwardOutlinedIcon
+                      sx={{ fontSize: { xs: 15.482, sm: 28.456 } }}
+                    />
+                    {value}
+                  </Typography>
+                );
+              }
+            )}
+          </Stack>
           {/* Multi-Select Categories */}
+          <Typography
+            sx={{
+              color: "#293A48",
+              fontFamily: "POI Carbonic Trial",
+              fontSize: { xs: 14.259, sm: 26.209 },
+              fontStyle: "normal",
+              fontWeight: 600,
+              lineHeight: "normal",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            Nearby Places
+          </Typography>
           <Stack
             direction="row"
             alignItems="center"
@@ -361,56 +475,9 @@ export default function PropertyDetail() {
             </FormControl>
             Near this property
           </Stack>
-          {/* Nearby Places */}
           {selectedCategories.length > 0 && (
             <NearbyPlaces property={property} categories={selectedCategories} />
           )}
-          {/* Description */}
-          <Typography
-            sx={{
-              color: "#293A48",
-              fontFamily: "POI Carbonic Trial",
-              fontSize: { xs: 14.259, sm: 26.209 },
-              fontStyle: "normal",
-              fontWeight: 300,
-              lineHeight: "normal",
-            }}
-          >
-            {property?.description}
-          </Typography>
-          <Stack
-            direction="row"
-            sx={{
-              alignItems: "center",
-              columnGap: 3,
-              flexWrap: "wrap",
-            }}
-          >
-            {property?.homeInsights?.[0]?.insights?.[0]?.phrases.map(
-              (value, index) => {
-                return (
-                  <Typography
-                    key={index}
-                    sx={{
-                      color: "#293A48",
-                      fontFamily: "POI Carbonic Trial",
-                      fontSize: { xs: 15.482, sm: 28.456 },
-                      fontStyle: "normal",
-                      fontWeight: 300,
-                      lineHeight: "normal",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <ArrowForwardOutlinedIcon
-                      sx={{ fontSize: { xs: 15.482, sm: 28.456 } }}
-                    />
-                    {value}
-                  </Typography>
-                );
-              }
-            )}
-          </Stack>
           {/* Agent Details */}
           <div className="actionButtons">
             <Card sx={{ width: "100%" }} className="agentCard">
@@ -563,7 +630,7 @@ export default function PropertyDetail() {
           </Swiper>
         </Box>
       </Stack>
-      {/* open this link in iframe https://www.zillow.com/view-imx/bf8d5927-5568-4448-9ca4-e717c06c0cc4?setAttribution=mls&wl=true&initialViewType=pano&utm_source=dashboard */}
+      {/* Virtual Tour */}
       {property?.virtualTourUrl && (
         <iframe
           src={property?.virtualTourUrl}

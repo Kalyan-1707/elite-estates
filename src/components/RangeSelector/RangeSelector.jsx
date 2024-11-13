@@ -9,8 +9,6 @@ function RangeSelector({label,name,  marks, min, max, step, formatFunc, value, s
      <Typography sx={{ color: '#5A556BC9' }}>
         {label}
       </Typography>
-      {/* <Typography>Min: {formatCurrency(priceRange[0])}</Typography>
-      <Typography>Max: {formatCurrency(priceRange[1])}</Typography> */}
       <Slider
         value={value}
         onChange={setValue}
