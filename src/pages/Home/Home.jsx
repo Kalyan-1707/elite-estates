@@ -36,7 +36,7 @@ function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [priceRange, setPriceRange] = useState([5000, 5000000]);
+  const [priceRange, setPriceRange] = useState([5000, 1000000]);
   const [latestHouses, setLatestHouses] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);

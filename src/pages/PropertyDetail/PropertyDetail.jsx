@@ -7,17 +7,18 @@ import BathtubOutlinedIcon from "@mui/icons-material/BathtubOutlined";
 import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
-import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
+import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
+import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import IosShareIcon from '@mui/icons-material/IosShare';
+import IosShareIcon from "@mui/icons-material/IosShare";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import axios from "axios";
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 
 import "./PropertyDetail.css";
 
@@ -40,6 +41,7 @@ import {
   OutlinedInput,
   Skeleton,
   ClickAwayListener,
+  Button,
 } from "@mui/material";
 import NavBar from "../../components/NavBar/NavBar";
 import { formatCurrency } from "../../utils/helpers";
@@ -47,7 +49,6 @@ import { useParams } from "react-router-dom";
 import { getPropertyDetail } from "../../api/search";
 import NearbyPlaces from "./NearbyPlaces";
 import { ShareSocial } from "react-share-social";
-
 
 export default function PropertyDetail() {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -60,8 +61,13 @@ export default function PropertyDetail() {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [showShareModal, setShowShareModal] = useState(false);
 
-
-  const possibleCategories = ['commercial', 'education', 'catering', 'service', 'healthcare'];
+  const possibleCategories = [
+    "commercial",
+    "education",
+    "catering",
+    "service",
+    "healthcare",
+  ];
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -89,54 +95,93 @@ export default function PropertyDetail() {
     const {
       target: { value },
     } = event;
-    setSelectedCategories(
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    setSelectedCategories(typeof value === "string" ? value.split(",") : value);
   };
 
-  if(isLoading) {
-    return (<>
-      <NavBar dark />
-      <Stack
-        direction="row"
-        sx={{
-          width: "100%",
-          justifyContent: "space-between",
-          p: 4,
-          flexWrap: { xs: "wrap", sm: "nowrap" },
-          gap: '20px'
-        }}
-      >
-        <Box
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <>
+        <NavBar dark />
+        <Stack
+          direction="row"
           sx={{
-            width: { xs: "100%", sm: "50%", md: "50%", lg: "50%", xl: "50%" },
-            display: "flex",
-            flexDirection: "column",
-            rowGap: 1,
+            width: "100%",
+            justifyContent: "space-between",
+            p: 4,
+            flexWrap: { xs: "wrap", sm: "nowrap" },
+            gap: "20px",
           }}
         >
-          <Skeleton variant="rect" width="100%" height={100} sx={{ borderRadius: 2 }} />
-          <Skeleton variant="rect" width="100%" height={150} sx={{ borderRadius: 2 }} />
-          <Skeleton variant="rect" width="100%" height={200} sx={{ borderRadius: 2 }} />
-        </Box>
-        <Box
-          sx={{
-            width: { xs: "100%", sm: "50%", md: "50%", lg: "50%", xl: "50%" },
-            display: "flex",
-            flexDirection: "column",
-          rowGap: 1
-          }}
-        >
-          <Skeleton variant="rect" width="100%" height={350} sx={{ borderRadius: 2 }} />
-          <Skeleton variant="rect" width="100%" height={150} sx={{ borderRadius: 2 }} />
-        </Box>
-</Stack>
-    </>)
+          <Box
+            sx={{
+              width: { xs: "100%", sm: "50%", md: "50%", lg: "50%", xl: "50%" },
+              display: "flex",
+              flexDirection: "column",
+              rowGap: 1,
+            }}
+          >
+            <Skeleton
+              variant="rect"
+              width="100%"
+              height={100}
+              sx={{ borderRadius: 2 }}
+            />
+            <Skeleton
+              variant="rect"
+              width="100%"
+              height={150}
+              sx={{ borderRadius: 2 }}
+            />
+            <Skeleton
+              variant="rect"
+              width="100%"
+              height={200}
+              sx={{ borderRadius: 2 }}
+            />
+          </Box>
+          <Box
+            sx={{
+              width: { xs: "100%", sm: "50%", md: "50%", lg: "50%", xl: "50%" },
+              display: "flex",
+              flexDirection: "column",
+              rowGap: 1,
+            }}
+          >
+            <Skeleton
+              variant="rect"
+              width="100%"
+              height={350}
+              sx={{ borderRadius: 2 }}
+            />
+            <Skeleton
+              variant="rect"
+              width="100%"
+              height={150}
+              sx={{ borderRadius: 2 }}
+            />
+          </Box>
+        </Stack>
+      </>
+    );
   }
 
   return (
     <>
       <NavBar dark />
+      <IconButton
+        onClick={handleScrollToTop}
+        aria-label="scroll to top"
+        sx={{ position: "fixed", right: 20, bottom: 20, zIndex: 5, color: "white", background: "#293A48" }}
+      >
+        <ArrowUpwardOutlinedIcon />
+      </IconButton>
       <Stack
         direction="row"
         sx={{
@@ -144,7 +189,7 @@ export default function PropertyDetail() {
           justifyContent: "space-between",
           p: 4,
           flexWrap: { xs: "wrap", sm: "nowrap" },
-          gap: '20px'
+          gap: "20px",
         }}
       >
         <Box
@@ -272,7 +317,12 @@ export default function PropertyDetail() {
             </Typography>
           </Stack>
           {/* Multi-Select Categories */}
-          <Stack direction="row" alignItems="center" spacing={2} className="nearby-label">
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={2}
+            className="nearby-label"
+          >
             <Typography
               sx={{
                 color: "#293A48",
@@ -283,32 +333,38 @@ export default function PropertyDetail() {
                 lineHeight: "normal",
               }}
             >
-            Find
+              Find
             </Typography>
             <FormControl variant="standard" sx={{ minWidth: 200 }}>
-        {!selectedCategories.length && (
-          <InputLabel id="categories-label" shrink={false}>Nearby Places</InputLabel>
-        )}
-          <Select
-            labelId="categories-label"
-            id="categories"
-            multiple
-            value={selectedCategories}
-            onChange={handleCategoryChange}
-            renderValue={(selected) => selected.join(', ')}
-          >
-            {possibleCategories.map((category) => (
-              <MenuItem key={category} value={category}>
-                <Checkbox checked={selectedCategories.indexOf(category) > -1} />
-                <ListItemText primary={category} />
-              </MenuItem>
-            ))}
-          </Select>
+              {!selectedCategories.length && (
+                <InputLabel id="categories-label" shrink={false}>
+                  Nearby Places
+                </InputLabel>
+              )}
+              <Select
+                labelId="categories-label"
+                id="categories"
+                multiple
+                value={selectedCategories}
+                onChange={handleCategoryChange}
+                renderValue={(selected) => selected.join(", ")}
+              >
+                {possibleCategories.map((category) => (
+                  <MenuItem key={category} value={category}>
+                    <Checkbox
+                      checked={selectedCategories.indexOf(category) > -1}
+                    />
+                    <ListItemText primary={category} />
+                  </MenuItem>
+                ))}
+              </Select>
             </FormControl>
             Near this property
           </Stack>
           {/* Nearby Places */}
-          {selectedCategories.length > 0 && <NearbyPlaces property={property} categories={selectedCategories} />}
+          {selectedCategories.length > 0 && (
+            <NearbyPlaces property={property} categories={selectedCategories} />
+          )}
           {/* Description */}
           <Typography
             sx={{
@@ -330,119 +386,134 @@ export default function PropertyDetail() {
               flexWrap: "wrap",
             }}
           >
-            {property?.homeInsights?.[0]?.insights?.[0]?.phrases.map((value, index) => {
-              return (
-                <Typography
-                  key={index}
-                  sx={{
-                    color: "#293A48",
-                    fontFamily: "POI Carbonic Trial",
-                    fontSize: { xs: 15.482, sm: 28.456 },
-                    fontStyle: "normal",
-                    fontWeight: 300,
-                    lineHeight: "normal",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <ArrowForwardOutlinedIcon
-                    sx={{ fontSize: { xs: 15.482, sm: 28.456 } }}
-                  />
-                  {value}
-                </Typography>
-              );
-            })}
+            {property?.homeInsights?.[0]?.insights?.[0]?.phrases.map(
+              (value, index) => {
+                return (
+                  <Typography
+                    key={index}
+                    sx={{
+                      color: "#293A48",
+                      fontFamily: "POI Carbonic Trial",
+                      fontSize: { xs: 15.482, sm: 28.456 },
+                      fontStyle: "normal",
+                      fontWeight: 300,
+                      lineHeight: "normal",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ArrowForwardOutlinedIcon
+                      sx={{ fontSize: { xs: 15.482, sm: 28.456 } }}
+                    />
+                    {value}
+                  </Typography>
+                );
+              }
+            )}
           </Stack>
           {/* Agent Details */}
           <div className="actionButtons">
-          <Card sx={{ width: "100%" }} className="agentCard">
-          <CardContent>
-    {/* Agent */}
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: 2,
-      }}
-    >
-      <SupportAgentIcon
-        sx={{ height: "100%", width: "auto", maxWidth: "100px" }}
-      />
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <Typography variant="inherit" sx={{}} className="agentName">
-          {property?.attributionInfo?.agentName || "N/A"}
-        </Typography>
-        <Typography
-          variant="inherit"
-          sx={{ fontSize: { xs: 12, sm: 18 } }}
-        >
-          Agent
-        </Typography>
-        <Box sx={{ display: "flex", flexDirection: "column" }} className="agentContact">
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            {property?.attributionInfo?.agentPhoneNumber || "N/A"}
-          </Typography>
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            {property?.attributionInfo?.agentEmail || "N/A"}
-          </Typography>
-        </Box>
-      </Box>
-    </Box>
-  </CardContent>
-</Card>
-{showShareModal && (
-        <ClickAwayListener onClickAway={() => setShowShareModal(false)}>
-          <div
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              zIndex: 2000,
-            }}
-          >
-            <ShareSocial 
-            className="sharePopup"
-              url={`${window.location.origin}/property/${property?.zpid}`}
-              title={property?.address?.streetAddress}
-              socialTypes={[
-                "facebook",
-                "twitter",
-                "whatsapp",
-                "telegram",
-                "email",
-              ]}
-              style={{
-                root: {
-                 backgroundColor: "#C4D4E3",
-                  borderRadius: 3,
-                  border: 0,
-                  boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-                  color: "black",
-                },
-                copyContainer: {
-                  border: "1px solid blue",
-                  background: "rgb(0,0,0,0.7)",
-                },
-                title: {
-                  color: "black",
-                  fontStyle: "bold",
-                  FontFace: "Selvia Genatu"
-                },
-              }}
-            />
+            <Card sx={{ width: "100%" }} className="agentCard">
+              <CardContent>
+                {/* Agent */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                  }}
+                >
+                  <SupportAgentIcon
+                    sx={{ height: "100%", width: "auto", maxWidth: "100px" }}
+                  />
+                  <Box sx={{ display: "flex", flexDirection: "column" }}>
+                    <Typography variant="inherit" sx={{}} className="agentName">
+                      {property?.attributionInfo?.agentName || "N/A"}
+                    </Typography>
+                    <Typography
+                      variant="inherit"
+                      sx={{ fontSize: { xs: 12, sm: 18 } }}
+                    >
+                      Agent
+                    </Typography>
+                    <Box
+                      sx={{ display: "flex", flexDirection: "column" }}
+                      className="agentContact"
+                    >
+                      <Typography
+                        variant="body2"
+                        sx={{ color: "text.secondary" }}
+                      >
+                        {property?.attributionInfo?.agentPhoneNumber || "N/A"}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: "text.secondary" }}
+                      >
+                        {property?.attributionInfo?.agentEmail || "N/A"}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+            {showShareModal && (
+              <ClickAwayListener onClickAway={() => setShowShareModal(false)}>
+                <div
+                  style={{
+                    position: "fixed",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    zIndex: 2000,
+                  }}
+                >
+                  <ShareSocial
+                    className="sharePopup"
+                    url={`${window.location.origin}/property/${property?.zpid}`}
+                    title={property?.address?.streetAddress}
+                    socialTypes={[
+                      "facebook",
+                      "twitter",
+                      "whatsapp",
+                      "telegram",
+                      "email",
+                    ]}
+                    style={{
+                      root: {
+                        backgroundColor: "#C4D4E3",
+                        borderRadius: 3,
+                        border: 0,
+                        boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+                        color: "black",
+                      },
+                      copyContainer: {
+                        border: "1px solid blue",
+                        background: "rgb(0,0,0,0.7)",
+                      },
+                      title: {
+                        color: "black",
+                        fontStyle: "bold",
+                        FontFace: "Selvia Genatu",
+                      },
+                    }}
+                  />
+                </div>
+              </ClickAwayListener>
+            )}
+            <Card
+              sx={{ width: "100%", maxWidth: 450 }}
+              className="saveButton"
+              onClick={() => setShowShareModal(true)}
+            >
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <IosShareIcon className="saveIcon" sx={{ height: "100%" }} />
+                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  Share
+                </Typography>
+              </Box>
+            </Card>
           </div>
-        </ClickAwayListener>
-      )}
-<Card sx={{ width: "100%", maxWidth: 450 }} className="saveButton" onClick={() => setShowShareModal(true)}>
-  <Box sx={{ display: "flex", flexDirection: "column" }}>
-    <IosShareIcon className="saveIcon" sx={{ height: "100%" }} />
-    <Typography variant="body2" sx={{ color: "text.secondary" }}>
-      Share
-    </Typography>
-  </Box>
-</Card>
-</div>
         </Box>
         <Box
           sx={{

@@ -154,7 +154,8 @@ export default function HouseCard({
                 "twitter",
                 "whatsapp",
                 "telegram",
-                "email",
+                "reddit",
+                "linkedin",
               ]}
               style={{
                 root: {
