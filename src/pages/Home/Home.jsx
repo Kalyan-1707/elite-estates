@@ -157,18 +157,16 @@ function Home() {
                 variant="standard"
                 name="location"
                 InputLabelProps={{ shrink: true }}
-                placeholder="location, city or zip code"
+                placeholder="location, city or zip"
                 required
               />
             </FormControl>
-            <Divider orientation="vertical" flexItem />
-            <div style={{ flexGrow: 1, width: "90%" }}>
               <RangeSelector
                 label={langMapping["Price"]}
                 name="price"
                 marks={[
                   { value: 5000, label: '$ ' + formatCurrency(5000) },
-                  { value: 1000000, label: `$ ${formatCurrency(1000000)}+` },
+                  { value: 1000000, label: `$ 1M+` },
                 ]}
                 min={5000}
                 max={1000000}
@@ -178,9 +176,7 @@ function Home() {
                 value={priceRange}
                 setValue={handlePriceChange}
               />
-            </div>
-            <Divider orientation="vertical" flexItem />
-            <SelectMenu
+                      <SelectMenu
               label={langMapping["Beds"]}
               defaultValue={BEDS_DEFAULT_VALUE}
               selectOptions={BEDS_SELECT_OPTIONS}
@@ -192,8 +188,7 @@ function Home() {
               selectOptions={BATHS_SELECT_OPTIONS}
               name="baths"
             />
-            <Divider orientation="vertical" flexItem />
-            <Button variant="contained" sx={{ width: "100%" }} type="submit">
+            <Button variant="contained" type="submit">
               {langMapping["Search"]}
             </Button>
           </form>
