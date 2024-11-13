@@ -42,6 +42,7 @@ function Home() {
   const [isError, setIsError] = useState(false);
   const language = useSelector((state) => state.app.language);
   const [langMapping, setLangMapping] = useState({});
+  const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
     // Change the source file based on the language
@@ -60,6 +61,33 @@ function Home() {
   const handlePriceChange = (event, newValue) => {
     setPriceRange(newValue);
   };
+
+  // initialize wishlist from local storage
+  useEffect(() => {
+    let favs = JSON.parse(localStorage.getItem("favorites")) || [];
+    favs = favs?.map((item) => item.property.zpid);
+    setWishlist(favs);
+  }, []);
+
+  // toggle favorite
+  const handleToggleFavorite = (id) => {
+    if (wishlist?.includes(id)) {
+      setWishlist(wishlist.filter((item) => item !== id));
+    } else {
+      setWishlist([...wishlist, id]);
+    }
+  };
+
+  // on wishlist save to local storage
+  useEffect(() => {
+    if (wishlist?.length >= 0) {
+      const favs = latestHouses?.searchResults?.filter((item) =>
+        wishlist.includes(item.property.zpid)
+      );
+      if (favs?.length >= 0)
+        localStorage.setItem("favorites", JSON.stringify(favs));
+    }
+  }, [wishlist]);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -121,47 +149,48 @@ function Home() {
             <FormControl variant="standard" sx={{ width: "100%" }}>
               <TextField
                 id="location"
-                label="Location"
+                label={langMapping["Location"]}
                 variant="standard"
                 name="location"
-               
+                InputLabelProps={{ shrink: true }}
+                placeholder="location, city or zip code"
                 required
               />
             </FormControl>
             <Divider orientation="vertical" flexItem />
             <div style={{ flexGrow: 1, width: "90%" }}>
               <RangeSelector
-                label="Price"
+                label={langMapping["Price"]}
                 name="price"
                 marks={[
-                  { value: 5000, label: formatCurrency(5000) },
-                  { value: 1000000, label: ` ${formatCurrency(1000000)}+` },
+                  { value: 5000, label: '$ ' + formatCurrency(5000) },
+                  { value: 1000000, label: `$ ${formatCurrency(1000000)}+` },
                 ]}
                 min={5000}
                 max={1000000}
                 step={10000}
                 defaultValue={[5000, 1000000]}
-                formatFunc={(value) => formatCurrency(value)}
+                formatFunc={(value) => '$' + formatCurrency(value)}
                 value={priceRange}
                 setValue={handlePriceChange}
               />
             </div>
             <Divider orientation="vertical" flexItem />
             <SelectMenu
-              label="Beds"
+              label={langMapping["Beds"]}
               defaultValue={BEDS_DEFAULT_VALUE}
               selectOptions={BEDS_SELECT_OPTIONS}
               name="beds"
             />
             <SelectMenu
-              label="Baths"
+              label={langMapping["Baths"]}
               defaultValue={BATHS_DEFAULT_VALUE}
               selectOptions={BATHS_SELECT_OPTIONS}
               name="baths"
             />
             <Divider orientation="vertical" flexItem />
             <Button variant="contained" sx={{ width: "100%" }} type="submit">
-              Search
+              {langMapping["Search"]}
             </Button>
           </form>
         </section>
@@ -203,7 +232,9 @@ function Home() {
                 price={item.property.price.value}
                 img={item.property.media.propertyPhotoLinks.mediumSizeLink}
                 //   handleToggleFavorite={handleToggleFavorite}
-                isFavorite={item?.isFavorite || false}
+                handleToggleFavorite={handleToggleFavorite}
+                  isFavorite={wishlist?.includes(item.property.zpid)}
+                label={langMapping["Learn More"]}
               />
             );
           })}

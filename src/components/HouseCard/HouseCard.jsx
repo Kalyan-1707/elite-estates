@@ -27,6 +27,8 @@ import { Button, Checkbox, ClickAwayListener, Skeleton, Stack } from "@mui/mater
 import { useNavigate } from "react-router-dom";
 import { ShareSocial } from "react-share-social";
 import "./HouseCard.css";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -68,11 +70,13 @@ export default function HouseCard({
   disableCompare,
   updateCompareProperties,
   checked = false,
-  isLoading = false
+  isLoading = false,
+  label = "Learn More",
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
   const [showShareModal, setShowShareModal] = React.useState(false);
+
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -177,8 +181,8 @@ export default function HouseCard({
       <Card sx={{ maxWidth: 345 }}>
         <CardMedia
           sx={{
-            width: 345,
-            height: 250,
+            width: {xs: '100%', sm: 345},
+            height: {xs: '100%', sm: 250},
             position: "relative",
           }}
         >
@@ -196,7 +200,7 @@ export default function HouseCard({
             />
           )}
         </CardMedia>
-        <CardContent>
+        <CardContent sx={{ padding: {xs: 2, sm:3, md: 4}}}>
           <Stack
             direction="row"
             spacing={2}
@@ -233,7 +237,7 @@ export default function HouseCard({
               variant="contained"
               onClick={handleLearnMoreClick}
             >
-              Learn More
+              {label}
             </Button>
             <Stack direction="row" spacing={1} alignItems="center">
               <IconButton

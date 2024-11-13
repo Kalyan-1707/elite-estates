@@ -31,6 +31,7 @@ function Wishlist() {
         rowGap={2}
         columnGap={2}
       >
+
       </Stack>
 
       <Stack

@@ -43,6 +43,7 @@ import {
 } from "../../slices/propertySlice";
 import { useSearchParams } from "react-router-dom";
 import { search } from "../../api/search";
+import axios from "axios";
 const drawerWidth = 300;
 
 function SearchResults(props) {
@@ -52,7 +53,7 @@ function SearchResults(props) {
   const results = useSelector((state) => state.property.results);
   const dispatch = useDispatch();
   const [priceRange, setPriceRange] = React.useState([5000, 500000]);
-  const [yearRange, setYearRange] = React.useState([2011, 2024]);
+  const [yearRange, setYearRange] = React.useState([1980, 2024]);
   const [showCompare, setShowCompare] = React.useState(false);
   const [compareProperties, setCompareProperties] = React.useState([]);
   const [disableCompare, setDisableCompare] = React.useState(false);
@@ -60,6 +61,22 @@ function SearchResults(props) {
   const [wishlist, setWishlist] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [searchParams] = useSearchParams();
+
+  const language = useSelector((state) => state.app.language);
+  const [langMapping, setLangMapping] = React.useState({});
+
+  React.useEffect(() => {
+    // Change the source file based on the language
+      axios.get(`/localization/${language}.json`)
+      .then(response => {
+        const data = response.data;
+        // Use the data
+        setLangMapping(data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [language]);
 
   // get URL Params, get house list
   React.useEffect(() => {
@@ -170,11 +187,11 @@ function SearchResults(props) {
   };
 
   React.useEffect(() => {
-    if (wishlist?.length > 0) {
+    if (wishlist?.length >= 0) {
       const favs = results?.searchResults?.filter((item) =>
         wishlist.includes(item.property.zpid)
       );
-      if (favs?.length > 0)
+      if (favs?.length >= 0)
         localStorage.setItem("favorites", JSON.stringify(favs));
     }
   }, [wishlist]);
@@ -201,11 +218,11 @@ function SearchResults(props) {
       <Divider />
 
       <form className="filters-form" onSubmit={handleSearch}>
-        <Typography className="filters-title">Refine Your Search</Typography>
+        <Typography className="filters-title">{langMapping["Refine Your Search"]}</Typography>
         <FormControl variant="standard" sx={{ width: "100%" }}>
           <TextField
             id="location"
-            label="Location"
+            label={langMapping["Location"]}
             variant="standard"
             name="location"
             InputLabelProps={{
@@ -217,35 +234,35 @@ function SearchResults(props) {
           />
         </FormControl>
         <RangeSelector
-          label="Price"
+          label={langMapping["Price"]}
           name="price"
           marks={[
-            { value: 5000, label: formatCurrency(5000) },
-            { value: 1000000, label: ` ${formatCurrency(1000000)}+` },
+            { value: 5000, label: '$' + formatCurrency(5000) },
+            { value: 1000000, label: `$ ${formatCurrency(1000000)}+` },
           ]}
           min={5000}
           max={1000000}
           step={10000}
           defaultValue={[5000, 1000000]}
-          formatFunc={(value) => formatCurrency(value)}
+          formatFunc={(value) => '$' + formatCurrency(value)}
           value={priceRange}
           setValue={handlePriceChange}
         />
         <SelectMenu
-          label="Beds"
+          label={langMapping["Beds"]}
           defaultValue={searchParams.get("beds") || BEDS_DEFAULT_VALUE}
           selectOptions={BEDS_SELECT_OPTIONS}
           name="beds"
         />
         <SelectMenu
-          label="Baths"
+          label={langMapping["Baths"]}
           defaultValue={searchParams.get("baths") || BATHS_DEFAULT_VALUE}
           selectOptions={BATHS_SELECT_OPTIONS}
           name="baths"
         />
 
         <RangeSelector
-          label="Year Built"
+          label={langMapping["Year Built"]}
           name="year"
           marks={[
             { value: 1980, label: 1980 },
@@ -258,7 +275,7 @@ function SearchResults(props) {
           setValue={handleYearChange}
         />
         <Button variant="contained" sx={{ width: "100%" }} type="submit">
-          Filter
+          {langMapping["Filter"]}
         </Button>
       </form>
       <Divider />
@@ -332,7 +349,7 @@ function SearchResults(props) {
             <FormControlLabel
               control={<Checkbox />}
               onChange={toggleCompare}
-              label="Compare"
+              label={langMapping["Compare"]}
             />
             {disableCompare && (
               <Button
@@ -342,7 +359,7 @@ function SearchResults(props) {
                   setShowCompareModal(true);
                 }}
               >
-                Compare
+                {langMapping["Compare"]}
               </Button>
             )}
             <Button
@@ -356,7 +373,7 @@ function SearchResults(props) {
                 textTransform: "capitalize",
               }}
             >
-              Filters
+              {langMapping["Filter"]}
             </Button>
           </Stack>
 
@@ -396,6 +413,7 @@ function SearchResults(props) {
                   disableCompare={disableCompare}
                   updateCompareProperties={updateCompareProperties}
                   checked={compareProperties.includes(item.property.zpid)}
+                  label={langMapping["Learn More"]}
                 />
               );
             })}

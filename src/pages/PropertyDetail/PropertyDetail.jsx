@@ -11,6 +11,7 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
+import IosShareIcon from '@mui/icons-material/IosShare';
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -37,12 +38,16 @@ import {
   Checkbox,
   ListItemText,
   OutlinedInput,
+  Skeleton,
+  ClickAwayListener,
 } from "@mui/material";
 import NavBar from "../../components/NavBar/NavBar";
 import { formatCurrency } from "../../utils/helpers";
 import { useParams } from "react-router-dom";
 import { getPropertyDetail } from "../../api/search";
 import NearbyPlaces from "./NearbyPlaces";
+import { ShareSocial } from "react-share-social";
+
 
 export default function PropertyDetail() {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -53,15 +58,19 @@ export default function PropertyDetail() {
   const [places, setPlaces] = useState([]);
   const [property, setProperty] = useState({});
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [showShareModal, setShowShareModal] = useState(false);
+
 
   const possibleCategories = ['commercial', 'education', 'catering', 'service', 'healthcare'];
 
-  console.log(propertyId);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchPropertyDetails = async () => {
       const response = await getPropertyDetail(propertyId);
       setProperty(response?.propertyDetails);
+      setIsLoading(false);
       setTopImages(getTopImageURL(response?.propertyDetails?.originalPhotos));
     };
 
@@ -85,6 +94,46 @@ export default function PropertyDetail() {
     );
   };
 
+  if(isLoading) {
+    return (<>
+      <NavBar dark />
+      <Stack
+        direction="row"
+        sx={{
+          width: "100%",
+          justifyContent: "space-between",
+          p: 4,
+          flexWrap: { xs: "wrap", sm: "nowrap" },
+          gap: '20px'
+        }}
+      >
+        <Box
+          sx={{
+            width: { xs: "100%", sm: "50%", md: "50%", lg: "50%", xl: "50%" },
+            display: "flex",
+            flexDirection: "column",
+            rowGap: 1,
+          }}
+        >
+          <Skeleton variant="rect" width="100%" height={100} sx={{ borderRadius: 2 }} />
+          <Skeleton variant="rect" width="100%" height={150} sx={{ borderRadius: 2 }} />
+          <Skeleton variant="rect" width="100%" height={200} sx={{ borderRadius: 2 }} />
+        </Box>
+        <Box
+          sx={{
+            width: { xs: "100%", sm: "50%", md: "50%", lg: "50%", xl: "50%" },
+            display: "flex",
+            flexDirection: "column",
+          rowGap: 1
+          }}
+        >
+          <Skeleton variant="rect" width="100%" height={350} sx={{ borderRadius: 2 }} />
+          <Skeleton variant="rect" width="100%" height={150} sx={{ borderRadius: 2 }} />
+        </Box>
+</Stack>
+    </>)
+  }
+
   return (
     <>
       <NavBar dark />
@@ -93,8 +142,9 @@ export default function PropertyDetail() {
         sx={{
           width: "100%",
           justifyContent: "space-between",
-          p: 2,
+          p: 4,
           flexWrap: { xs: "wrap", sm: "nowrap" },
+          gap: '20px'
         }}
       >
         <Box
@@ -340,11 +390,55 @@ export default function PropertyDetail() {
     </Box>
   </CardContent>
 </Card>
-<Card sx={{ width: "100%", maxWidth: 450 }} className="saveButton">
+{showShareModal && (
+        <ClickAwayListener onClickAway={() => setShowShareModal(false)}>
+          <div
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 2000,
+            }}
+          >
+            <ShareSocial 
+            className="sharePopup"
+              url={`${window.location.origin}/property/${property?.zpid}`}
+              title={property?.address?.streetAddress}
+              socialTypes={[
+                "facebook",
+                "twitter",
+                "whatsapp",
+                "telegram",
+                "email",
+              ]}
+              style={{
+                root: {
+                 backgroundColor: "#C4D4E3",
+                  borderRadius: 3,
+                  border: 0,
+                  boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+                  color: "black",
+                },
+                copyContainer: {
+                  border: "1px solid blue",
+                  background: "rgb(0,0,0,0.7)",
+                },
+                title: {
+                  color: "black",
+                  fontStyle: "bold",
+                  FontFace: "Selvia Genatu"
+                },
+              }}
+            />
+          </div>
+        </ClickAwayListener>
+      )}
+<Card sx={{ width: "100%", maxWidth: 450 }} className="saveButton" onClick={() => setShowShareModal(true)}>
   <Box sx={{ display: "flex", flexDirection: "column" }}>
-    <LibraryAddIcon className="saveIcon" sx={{ height: "100%" }} />
+    <IosShareIcon className="saveIcon" sx={{ height: "100%" }} />
     <Typography variant="body2" sx={{ color: "text.secondary" }}>
-      Save
+      Share
     </Typography>
   </Box>
 </Card>
@@ -403,7 +497,7 @@ export default function PropertyDetail() {
         <iframe
           src={property?.virtualTourUrl}
           width="100%"
-          height="800px"
+          height="1200px"
           allowFullScreen
         ></iframe>
       )}
