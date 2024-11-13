@@ -49,7 +49,6 @@ function Home() {
       axios.get(`/localization/${language}.json`)
       .then(response => {
         const data = response.data;
-        // Use the data
         setLangMapping(data);
       })
       .catch(error => {
@@ -89,6 +88,7 @@ function Home() {
     }
   }, [wishlist]);
 
+  // handle search
   const handleSearch = async (e) => {
     e.preventDefault();
     const location = e.target.location.value;
@@ -119,6 +119,7 @@ function Home() {
     }
   };
 
+  // get latest houses on page load
   useEffect(() => {
     (async function () {
       setIsLoading(true);
@@ -139,11 +140,14 @@ function Home() {
   return (
     <>
       <div className="home-page-container">
+        {/* Navbar */}
         <NavBar />
+        {/* Hero Section */}
         <section className="hero-section-container">
           <span className="title">Elite Estates</span>
           <span className="subtitle">Dream Home.</span>
         </section>
+        {/* Search Section */}
         <section className="search-section">
           <form className="search-form" onSubmit={handleSearch}>
             <FormControl variant="standard" sx={{ width: "100%" }}>
@@ -195,7 +199,7 @@ function Home() {
           </form>
         </section>
       </div>
-      
+      {/* trending houses */}
       <Box sx={{ width: "100%", px: { xs: 4, sm: 8 }, py: 4 }}>
         <Typography variant="h4" component="div" sx={{ flexGrow: 1, mb: 2 }}>
           {langMapping["Latest Houses in"]+ " "+latestHouses?.title}
