@@ -42,6 +42,7 @@ import {
   Skeleton,
   ClickAwayListener,
   Button,
+  Grid,
 } from "@mui/material";
 import NavBar from "../../components/NavBar/NavBar";
 import { formatCurrency } from "../../utils/helpers";
@@ -378,39 +379,60 @@ export default function PropertyDetail() {
           >
             {property?.description}
           </Typography>
-          <Stack
-            direction="row"
+          <div className="insightsList">
+  <div className="column">
+    {property?.homeInsights?.[0]?.insights?.[0]?.phrases
+      .filter((_, index) => index % 2 === 0)
+      .map((value, index) => (
+        <div key={index} className="insightItem">
+          <Typography
             sx={{
+              color: "#293A48",
+              fontFamily: "POI Carbonic Trial",
+              fontSize: { xs: 15.482, sm: 28.456 },
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "1.1",
+              display: "flex",
               alignItems: "center",
-              columnGap: 3,
-              flexWrap: "wrap",
+              marginBottom: "16px", // Fixed margin bottom
             }}
           >
-            {property?.homeInsights?.[0]?.insights?.[0]?.phrases.map(
-              (value, index) => {
-                return (
-                  <Typography
-                    key={index}
-                    sx={{
-                      color: "#293A48",
-                      fontFamily: "POI Carbonic Trial",
-                      fontSize: { xs: 15.482, sm: 28.456 },
-                      fontStyle: "normal",
-                      fontWeight: 300,
-                      lineHeight: "normal",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <ArrowForwardOutlinedIcon
-                      sx={{ fontSize: { xs: 15.482, sm: 28.456 } }}
-                    />
-                    {value}
-                  </Typography>
-                );
-              }
-            )}
-          </Stack>
+            <ArrowForwardOutlinedIcon
+              sx={{ fontSize: { xs: 15.482, sm: 28.456 }, mr: 1 }}
+            />
+            {value}
+          </Typography>
+        </div>
+      ))}
+  </div>
+  <div className="column">
+    {property?.homeInsights?.[0]?.insights?.[0]?.phrases
+      .filter((_, index) => index % 2 !== 0)
+      .map((value, index) => (
+        <div key={index} className="insightItem">
+          <Typography
+            sx={{
+              color: "#293A48",
+              fontFamily: "POI Carbonic Trial",
+              fontSize: { xs: 15.482, sm: 28.456 },
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "1.1",
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "16px", // Fixed margin bottom
+            }}
+          >
+            <ArrowForwardOutlinedIcon
+              sx={{ fontSize: { xs: 15.482, sm: 28.456 }, mr: 1 }}
+            />
+            {value}
+          </Typography>
+        </div>
+      ))}
+  </div>
+</div>
           {/* Agent Details */}
           <div className="actionButtons">
             <Card sx={{ width: "100%" }} className="agentCard">

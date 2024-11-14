@@ -7,7 +7,7 @@
   padding: .5% !important;
   background: #C4D4E3 !important;
   font-family: "POI Carbonic Trial Light";
-  height: 18vh;
+  height: 15vh;
   padding-bottom: 0% !important;
   margin: auto;
   width: auto;
@@ -15,11 +15,36 @@
   container-type: inline-size;
 
 }
+.insightsList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  grid-auto-rows: min-content;
+  gap: 0px; /* Adjust gap as needed */
+  max-height: 25vh;
+  overflow-y: auto;
+}
+.nearby-places{
+  max-height: 25vh;
+
+}
+.nearby-places p{
+    font-size: larger;
+}
+.insightItem {
+  box-sizing: border-box;
+  padding: 2px; /* Adjust padding as needed */
+  height: min-content; 
+
+}
+.insightItem p{
+  font-size:larger !important;
+
+}
 .agentCard {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
   background: #C4D4E3 !important;
-  height: 18vh;
+  height: 15vh;
   margin: auto;
   position: relative;
   z-index: 1;
@@ -111,11 +136,13 @@
   width: 99%;
   margin: auto;
   overflow-y: scroll;
-  max-height: 19vh;
+  max-height: 16vh;
   padding:2% .5%;
   padding-right: 5%;
+  font-size: larger !important;
 
 }
+
 .css-1f9xtph-MuiTypography-root{
   margin-bottom: 0vh !important;
 
