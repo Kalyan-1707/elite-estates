@@ -144,7 +144,10 @@ function Home() {
         {/* Hero Section */}
         <section className="hero-section-container">
           <span className="title">Elite Estates</span>
-          <span className="subtitle">Dream Home.</span>
+          <span className="subtitle">
+            <span>Dream</span>
+            <span>House.</span>
+          </span>
         </section>
         {/* Search Section */}
         <section className="search-section">
