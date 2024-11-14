@@ -336,7 +336,7 @@ export default function PropertyDetail() {
             >
               Find
             </Typography>
-            <FormControl variant="standard" sx={{ minWidth: 200 }}>
+            <FormControl variant="standard" sx={{ minWidth: 200 }} className="placesDropDown">
               {!selectedCategories.length && (
                 <InputLabel id="categories-label" shrink={false}>
                   Nearby Places

@@ -15,6 +15,13 @@
   container-type: inline-size;
 
 }
+.placesDropDown{
+  height: auto;
+  padding-top: 0px !important;
+}
+label+.css-1f5mu5d-MuiInputBase-root-MuiInput-root-MuiSelect-root {
+  margin-bottom: 16px ;
+}
 .insightsList {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* Two columns */
@@ -222,7 +229,7 @@
   }
   
   .mySwiper2 {
-    height: 500px;
+    height: 55vh;
     width: 100%;
   }
   
@@ -299,7 +306,6 @@
     .swiper-slide img {
       display: block;
       width: 100%;
-      height: 70%;
       object-fit: cover;
     }
     .swiper {
