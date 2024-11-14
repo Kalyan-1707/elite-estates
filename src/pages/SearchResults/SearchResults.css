@@ -11,10 +11,9 @@
     flex-direction: column;
     row-gap: 40px;
     padding: 20px 30px;
-    background-color: #C4D4E3;
+    background-color: #c9c9c9;
     font-family: "POI Carbonic Trial Light";
-    height: 80vh;
-    height: 80cqh;
+    height: 100%;
  
 }
 .filters-title{

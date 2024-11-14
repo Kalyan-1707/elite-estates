@@ -65,6 +65,7 @@ function SearchResults(props) {
   const language = useSelector((state) => state.app.language);
   const [langMapping, setLangMapping] = React.useState({});
 
+  // Change the source file based on the language
   React.useEffect(() => {
     // Change the source file based on the language
     axios
@@ -109,20 +110,32 @@ function SearchResults(props) {
     })();
   }, []);
 
+  // initialize wishlist from local storage
   React.useEffect(() => {
     let favs = JSON.parse(localStorage.getItem("favorites")) || [];
     favs = favs?.map((item) => item.property.zpid);
     setWishlist(favs);
   }, []);
 
+  // handle price and year change
   const handleYearChange = (event, newValue) => {
     setYearRange(newValue);
   };
+
 
   const handlePriceChange = (event, newValue) => {
     setPriceRange(newValue);
   };
 
+/**
+ * Handles the search event by preventing the default form submission,
+ * extracting search parameters from the event, and performing a search
+ * request using these parameters. It updates the loading state during
+ * the request, and dispatches the search results to the store upon success.
+ * Logs any errors encountered during the search process.
+ *
+ * @param {Object} event - The event object from the form submission.
+ */
   const handleSearch = async (event) => {
     event.preventDefault();
     console.log(event.target);
@@ -185,6 +198,7 @@ function SearchResults(props) {
     }
   };
 
+  // update local storage
   React.useEffect(() => {
     if (wishlist?.length >= 0) {
       const favs = results?.searchResults?.filter((item) =>
@@ -195,6 +209,7 @@ function SearchResults(props) {
     }
   }, [wishlist]);
 
+  // update compare properties
   const updateCompareProperties = (id, checked) => {
     let updateCompareProperties;
     if (checked) {
@@ -212,6 +227,7 @@ function SearchResults(props) {
     }
   };
 
+  // create drawer
   const drawer = (
     <div>
       <Divider />
@@ -239,7 +255,7 @@ function SearchResults(props) {
           name="price"
           marks={[
             { value: 5000, label: "$" + formatCurrency(5000) },
-            { value: 1000000, label: `$ ${formatCurrency(1000000)}+` },
+            { value: 1000000, label: `$ 1M+` },
           ]}
           min={5000}
           max={1000000}

@@ -20,8 +20,12 @@
 3. API keys will be sent via email. If you don't receive them, you can obtain them from the following websites:
 	* Zillow API: [https://rapidapi.com/oneapiproject/api/zillow-working-api/playground/apiendpoint_68fbab94-16cf-4b5a-a643-a6f8fcee068d](https://rapidapi.com/oneapiproject/api/zillow-working-api/playground/apiendpoint_68fbab94-16cf-4b5a-a643-a6f8fcee068d)
 	* IP Geolocation API: [https://ipinfo.io/products/ip-geolocation-api](https://ipinfo.io/products/ip-geolocation-api)
+	* Geoapify API: [https://apidocs.geoapify.com/docs/places/](https://apidocs.geoapify.com/docs/places/)
+
+	Note: The API keys are required to run the application, all have free plans.
 4. Install dependencies by running `npm install`.
 5. Start the application by running `npm run dev`.
+6. For best experience, open in Incognito mode to avoid ad blockers and extension interference. 
 
 **Folder Structure**
 
@@ -41,5 +45,5 @@
 * Tailwind CSS: Used for utility-first CSS styling.
 
 **Deployment**
-
+* npm run build to create a production build
 * Deployed on Vercel: [https://elite-estates-finder.vercel.app/](https://elite-estates-finder.vercel.app/)
