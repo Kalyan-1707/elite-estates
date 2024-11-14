@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import "./Home.css";
 import "../SearchResults/SearchResults.css";
@@ -46,16 +45,16 @@ function Home() {
 
   useEffect(() => {
     // Change the source file based on the language
-      axios.get(`/localization/${language}.json`)
-      .then(response => {
+    axios
+      .get(`/localization/${language}.json`)
+      .then((response) => {
         const data = response.data;
         setLangMapping(data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
   }, [language]);
-
 
   const handlePriceChange = (event, newValue) => {
     setPriceRange(newValue);
@@ -96,8 +95,8 @@ function Home() {
     const baths = e.target.baths.value;
     const minPrice = priceRange[0];
     var maxPrice = priceRange[1];
-    if (maxPrice = 1000000) {
-      maxPrice = 'max:No_Max';
+    if ((maxPrice = 1000000)) {
+      maxPrice = "max:No_Max";
     }
     const params = new URLSearchParams();
     params.append("location", e.target.location.value);
@@ -161,22 +160,22 @@ function Home() {
                 required
               />
             </FormControl>
-              <RangeSelector
-                label={langMapping["Price"]}
-                name="price"
-                marks={[
-                  { value: 5000, label: '$ ' + formatCurrency(5000) },
-                  { value: 1000000, label: `$ 1M+` },
-                ]}
-                min={5000}
-                max={1000000}
-                step={10000}
-                defaultValue={[5000, 1000000]}
-                formatFunc={(value) => '$' + formatCurrency(value)}
-                value={priceRange}
-                setValue={handlePriceChange}
-              />
-                      <SelectMenu
+            <RangeSelector
+              label={langMapping["Price"]}
+              name="price"
+              marks={[
+                { value: 5000, label: "$ " + formatCurrency(5000) },
+                { value: 1000000, label: `$ 1M+` },
+              ]}
+              min={5000}
+              max={1000000}
+              step={10000}
+              defaultValue={[5000, 1000000]}
+              formatFunc={(value) => "$" + formatCurrency(value)}
+              value={priceRange}
+              setValue={handlePriceChange}
+            />
+            <SelectMenu
               label={langMapping["Beds"]}
               defaultValue={BEDS_DEFAULT_VALUE}
               selectOptions={BEDS_SELECT_OPTIONS}
@@ -196,9 +195,11 @@ function Home() {
       </div>
       {/* trending houses */}
       <Box sx={{ width: "100%", px: { xs: 4, sm: 8 }, py: 4 }}>
-        {!isLoading && latestHouses?.title && <Typography variant="h4" component="div" sx={{ flexGrow: 1, mb: 2 }}>
-          {langMapping["Latest Houses in"]+ " "+latestHouses?.title}
-        </Typography>}
+        {!isLoading && latestHouses?.title && (
+          <Typography variant="h4" component="div" sx={{ flexGrow: 1, mb: 2 }}>
+            {langMapping["Latest Houses in"] + " " + latestHouses?.title}
+          </Typography>
+        )}
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -232,13 +233,15 @@ function Home() {
                 img={item.property.media.propertyPhotoLinks.mediumSizeLink}
                 //   handleToggleFavorite={handleToggleFavorite}
                 handleToggleFavorite={handleToggleFavorite}
-                  isFavorite={wishlist?.includes(item.property.zpid)}
+                isFavorite={wishlist?.includes(item.property.zpid)}
                 label={langMapping["Learn More"]}
               />
             );
           })}
           {isError && <>Something went wrong, please try again</>}
-          {!isLoading && !latestHouses && <><div class="w-full flex items-center flex-wrap justify-center gap-10">
+          {!isLoading && !latestHouses && (
+            <>
+              <div class="w-full flex items-center flex-wrap justify-center gap-10">
                 <div class="grid gap-4 w-full">
                   <div class="w-20 h-20 mx-auto bg-gray-50 rounded-full shadow-sm justify-center items-center inline-flex">
                     <svg
@@ -269,7 +272,9 @@ function Home() {
                     </p>
                   </div>
                 </div>
-              </div></>}
+              </div>
+            </>
+          )}
         </Stack>
       </Box>
     </>
