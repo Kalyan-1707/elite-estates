@@ -19,9 +19,11 @@
   max-height: 10vh;
   height: auto;
   padding-top: 0px !important;
+
 }
-label+.css-1f5mu5d-MuiInputBase-root-MuiInput-root-MuiSelect-root {
-  margin-bottom: 16px ;
+.placesDropDown .MuiInputBase-formControl {
+  margin-bottom: 16px !important ;
+  max-height: 5vh;
 }
 .insightsList {
   display: grid;
