@@ -360,7 +360,18 @@ export default function PropertyDetail() {
                 ))}
               </Select>
             </FormControl>
-            Near this property
+            <Typography
+              sx={{
+                color: "#293A48",
+                fontFamily: "POI Carbonic Trial",
+                fontSize: { xs: 14.259, sm: 18.259 },
+                fontStyle: "normal",
+                fontWeight: 500,
+                lineHeight: "normal",
+              }}
+            >
+              Near this property
+            </Typography>
           </Stack>
           {/* Nearby Places */}
           {selectedCategories.length > 0 && (
