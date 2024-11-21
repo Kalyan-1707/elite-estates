@@ -139,11 +139,11 @@ label+.css-1f5mu5d-MuiInputBase-root-MuiInput-root-MuiSelect-root {
   padding: 1% 0%;
   width: 100%;
 }
-.css-17m0n7i-MuiTypography-root{
+.css-17m0n7i-MuiTypography-root, .desCont{
   width: 99%;
   margin: auto;
-  overflow-y: scroll;
-  max-height: 16vh;
+  overflow-y: scroll !important;
+  max-height: 16vh !important;
   padding:2% .5%;
   padding-right: 5%;
   font-size: larger !important;

@@ -368,6 +368,7 @@ export default function PropertyDetail() {
           )}
           {/* Description */}
           <Typography
+          className="desCont"
             sx={{
               color: "#293A48",
               fontFamily: "POI Carbonic Trial",
@@ -375,7 +376,7 @@ export default function PropertyDetail() {
               fontStyle: "normal",
               fontWeight: 300,
               lineHeight: "normal",
-            }}
+            }} 
           >
             {property?.description}
           </Typography>
