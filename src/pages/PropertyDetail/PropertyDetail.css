@@ -16,6 +16,7 @@
 
 }
 .placesDropDown{
+  max-height: 10vh;
   height: auto;
   padding-top: 0px !important;
 }
@@ -31,10 +32,10 @@ label+.css-1f5mu5d-MuiInputBase-root-MuiInput-root-MuiSelect-root {
   overflow-y: auto;
 }
 .nearby-places{
-  max-height: 25vh;
+  max-height: 15vh;
 
 }
-.nearby-places p{
+.nearby-places p, .nearby-places #text{
     font-size: larger;
 }
 .insightItem {

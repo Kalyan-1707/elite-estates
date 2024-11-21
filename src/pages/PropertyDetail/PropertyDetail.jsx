@@ -322,7 +322,7 @@ export default function PropertyDetail() {
             direction="row"
             alignItems="center"
             spacing={2}
-            className="nearby-label"
+            className="nearby-places"
           >
             <Typography
               sx={{
@@ -484,6 +484,7 @@ export default function PropertyDetail() {
               <ClickAwayListener onClickAway={() => setShowShareModal(false)}>
                 <div
                   style={{
+                    backgroundColor: "#C4D4E3",
                     position: "fixed",
                     top: "50%",
                     left: "50%",
