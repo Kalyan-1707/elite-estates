@@ -37,19 +37,14 @@
   max-height: 15vh;
 
 }
-.nearby-places p, .nearby-places #text{
-    font-size: larger;
-}
+
 .insightItem {
   box-sizing: border-box;
   padding: 2px; /* Adjust padding as needed */
   height: min-content; 
 
 }
-.insightItem p{
-  font-size:larger !important;
 
-}
 .saveButton{
   background: #C4D4E3 !important;
 
@@ -79,12 +74,19 @@
 }
 
 @media screen and (min-width: 768px){
+  .nearby-places p, .nearby-places #text{
+    font-size: larger !important;
+}
   .saveIcon{
     font-size: 80px!important;
   }
   .css-j7qwjs p{
     font-size:1.1rem;
 
+  }
+  .insightItem p{
+    font-size: medium !important;
+  
   }
   .saveButton{
 
@@ -265,12 +267,22 @@
   }
  
   @media only screen and (max-width: 768px){
+    .nearby-places p, .nearby-places #text{
+      font-size: medium !important;
+  }
      .actionButtons{
       margin: auto;
       max-width: 99vw !important;
       margin: auto;
       float: left;
      }
+     .insightItem p{
+      font-size:smaller !important;
+    
+    }
+    .placesDropDown{
+      min-width: 100px!important;
+    }
     .css-vd5csi-MuiPaper-root-MuiCard-root,.agentCard,.saveButton{
       min-height: 12vh;
       max-height: 12vh;
