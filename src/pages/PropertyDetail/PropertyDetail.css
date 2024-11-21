@@ -35,6 +35,7 @@
 }
 .nearby-places{
   max-height: 15vh;
+  overflow-y: scroll;
 
 }
 
@@ -76,6 +77,11 @@
 @media screen and (min-width: 768px){
   .nearby-places p, .nearby-places #text{
     font-size: larger !important;
+}
+.nearby-places{
+  max-height: 20vh;
+  overflow-y: auto;
+
 }
   .saveIcon{
     font-size: 80px!important;
